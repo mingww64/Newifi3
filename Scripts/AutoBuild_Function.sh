@@ -21,21 +21,28 @@ GET_TARGET_INFO() {
 
 Diy_Part1_Base() {
 	Mkdir package/lean
-	
-	Update_Makefile xray package/lean/xray
-	Update_Makefile v2ray package/lean/v2ray
-	Update_Makefile v2ray-plugin package/lean/v2ray-plugin
-	
-	Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
+	if [ ${INCLUDE_Latest_Ray} == true ];then
+		Update_Makefile xray package/lean/xray
+		Update_Makefile v2ray package/lean/v2ray
+		Update_Makefile v2ray-plugin package/lean/v2ray-plugin
+	fi
+	if [ ${INCLUDE_SSR_Plus} == true ];then
+		ExtraPackages git lean helloworld https://github.com/fw876 master
+		sed -i 's/143/143,25,5222/' package/lean/helloworld/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
+	fi
 	Replace_File Scripts/AutoBuild_Tools.sh package/base-files/files/bin
-	ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
 }
 
 
 Diy_Part2_Base() {
 	GET_TARGET_INFO
-	sed -i '/luci-app-autoupdate/d' .config > /dev/null 2>&1
-	echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
+	if [ ${INCLUDE_AutoUpdate} == true ];then
+		Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
+		ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
+		sed -i '/luci-app-autoupdate/d' .config > /dev/null 2>&1
+		echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
+	fi
+
 	echo "Author: ${Author}"
 	echo "Openwrt Version: ${Openwrt_Version}"
 	echo "AutoUpdate Version: ${AutoUpdate_Version}"
