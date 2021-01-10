@@ -31,13 +31,9 @@
 
 3. 编辑`.github/workflows/AutoBuild.yml`文件,修改`第 27 行`为你上传的 '.config' 文件名称
 
-4. 编辑`Scripts/AutoUpdate.sh`文件,修改`第 7 行`为你的 **设备名称**,修改`第 8 行`为你的 **Github 地址**
+4. 编辑`Scripts/AutoBuild_DiyScript.sh`文件,修改`第 7 行`为作者,作者将在 OpenWrt 首页显示
 
-   **注意: 设备名称 应为设备的完整代号,例如 d-team_newifi-d2 而并非 Newifi-D2**
-
-5. 编辑`Scripts/AutoBuild_DiyScript.sh`文件,修改`第 7 行`为作者,作者将在 OpenWrt 首页显示
-
-6. **手动启动编译**: 点击右上方 ***Star*** 即可开始编译,最好先同步我的最新改动~~以获得更多特性(bug)~~
+5. **手动启动编译**: 点击右上方 ***Star*** 即可开始编译,最好先同步我的最新改动~~以获得更多特性(bug)~~
 
    **添加额外的软件包:** 编辑`Scripts/AutoBuild_DiyScript.sh`,修改`Diy-Part1()`函数,参照下方语法:
 ```
