@@ -49,6 +49,7 @@ Diy-Part2() {
 	echo "Openwrt Version: ${Openwrt_Version}"
 	echo "AutoUpdate Version: ${AutoUpdate_Version}"
 	echo "Router: ${TARGET_PROFILE}"
+	echo "Github: ${Github_Repo}"
 	[ -f $Default_File ] && sed -i "s?${Lede_Version}?${Lede_Version} Compiled by ${Author} [${Display_Date}]?g" $Default_File
 	echo "${Openwrt_Version}" > package/base-files/files/etc/openwrt_info
 	echo "${Github_Repo}" >> package/base-files/files/etc/openwrt_info
