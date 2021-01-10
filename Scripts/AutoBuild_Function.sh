@@ -77,14 +77,24 @@ ExtraPackages() {
 		echo "[$(date "+%H:%M:%S")] Checking out package [${PKG_NAME}] to package/${PKG_DIR} ..."
 		case "${PKG_PROTO}" in
 		git)
+		
+			if [[ -z "${REPO_BRANCH}" ]];then
+				echo "[$(date "+%H:%M:%S")] Missing important options,skip check out..."
+				break
+			fi
 			git clone -b ${REPO_BRANCH} ${REPO_URL}/${PKG_NAME} ${PKG_NAME} > /dev/null 2>&1
 		;;
 		svn)
 			svn checkout ${REPO_URL}/${PKG_NAME} ${PKG_NAME} > /dev/null 2>&1
+		;;
+		*)
+			echo "[$(date "+%H:%M:%S")] Wrong proto[Only git and svn],skip check out..."
+			break
+		;;
 		esac
 		if [ -f ${PKG_NAME}/Makefile ] || [ -f ${PKG_NAME}/README* ];then
 			echo "[$(date "+%H:%M:%S")] Package [${PKG_NAME}] is detected!"
-			mv ${PKG_NAME} package/${PKG_DIR}
+			mv -f ${PKG_NAME} package/${PKG_DIR}
 			break
 		else
 			[ ${Retry_Times} -lt 1 ] && echo "[$(date "+%H:%M:%S")] Skip check out package [${PKG_NAME}] ..." && break
@@ -94,6 +104,7 @@ ExtraPackages() {
 			sleep 3
 		fi
 	done
+	unset PKG_PROTO PKG_DIR PKG_NAME REPO_URL REPO_BRANCH
 }
 
 Replace_File() {
@@ -114,7 +125,7 @@ Replace_File() {
 			echo "[$(date "+%H:%M:%S")] Customize ${_TYPE2} [${FILE_NAME}] is not detected,skip move ..."
 		fi
 	fi
-	unset _RENAME _TYPE1 _TYPE2
+	unset FILE_NAME PATCH_DIR FILE_RENAME _RENAME _TYPE1 _TYPE2
 }
 
 Update_Makefile() {
