@@ -17,6 +17,12 @@ on:
         required: true
         default: 'false'
 
+  schedule:
+    - cron: 0 11 * * *
+
+  watch:
+    types: [started]
+
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   CONFIG_FILE: NEWIFI_D2-NIGHTLY.config
