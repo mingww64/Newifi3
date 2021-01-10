@@ -51,7 +51,7 @@
 
 1. 进入你的`AutoBuild-Actions`仓库
 
-2. 编辑`.github/workflows/AutoBuild.yml`文件,编辑`第 20 行`,并按需修改 corntab 参数(默认每天 19:00 开始编译)
+2. 编辑`.github/workflows/AutoBuild.yml`文件,编辑`第 21 行`,并按需修改 corntab 参数(默认每天 19:00 开始编译)
 
 3. 打开 Openwrt 主页,点击`系统`-`定时更新`,设置自动检查更新的时间并保存(需要 [luci-app-autoupdate](https://github.com/Hyy2001X/luci-app-autoupdate) 支持)
 
