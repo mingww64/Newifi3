@@ -39,7 +39,6 @@ Diy-Part1() {
 Diy-Part2() {
 	Diy_Part2_Base
 	Replace_File Customize/mwan3.config package/feeds/packages/mwan3/files/etc/config mwan3
-	sed -i 's/143/143,25,5222/' package/lean/helloworld/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 	# ExtraPackages svn feeds/packages mwan3 https://github.com/openwrt/packages/trunk/net
 }
 
