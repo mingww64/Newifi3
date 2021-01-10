@@ -20,11 +20,12 @@ GET_TARGET_INFO() {
 }
 
 Diy_Part1_Base() {
-	[ ! -d package/lean ] && mkdir -p package/lean
+	Mkdir package/lean
 	
 	Update_Makefile xray package/lean/xray
 	Update_Makefile v2ray package/lean/v2ray
 	Update_Makefile v2ray-plugin package/lean/v2ray-plugin
+	
 	Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
 	Replace_File Scripts/AutoBuild_Tools.sh package/base-files/files/bin
 	ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
@@ -52,12 +53,21 @@ Diy_Part3_Base() {
 	Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 	AutoBuild_Firmware="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}.bin"
 	AutoBuild_Detail="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}.detail"
-	mkdir -p bin/Firmware
+	Mkdir bin/Firmware
 	echo "Firmware: ${AutoBuild_Firmware}"
 	mv -f bin/targets/"${TARGET_BOARD}/${TARGET_SUBTARGET}/${Default_Firmware}" bin/Firmware/"${AutoBuild_Firmware}"
 	_MD5=$(md5sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
 	_SHA256=$(sha256sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
 	echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/"${AutoBuild_Detail}"
+}
+
+Mkdir() {
+	_DIR=${1}
+	if [ ! -d "${_DIR}" ];then
+		echo "[$(date "+%H:%M:%S")] Creating new folder [${_DIR}] ..."
+		mkdir -p ${_DIR}
+	fi
+	unset _DIR
 }
 
 ExtraPackages() {
@@ -67,7 +77,7 @@ ExtraPackages() {
 	REPO_URL=${4}
 	REPO_BRANCH=${5}
 
-	[ -d "package/${PKG_DIR}" ] && mkdir -p package/${PKG_DIR}
+	Mkdir package/${PKG_DIR}
 	[ -d "package/${PKG_DIR}/${PKG_NAME}" ] && rm -rf package/${PKG_DIR}/${PKG_NAME}
 	[ -d "${PKG_NAME}" ] && rm -rf ${PKG_NAME}
 	Retry_Times=3
@@ -111,7 +121,7 @@ Replace_File() {
 	PATCH_DIR=${GITHUB_WORKSPACE}/openwrt/${2}
 	FILE_RENAME=${3}
 	
-	[ ! -d "${PATCH_DIR}" ] && mkdir -p "${PATCH_DIR}"
+	Mkdir "${PATCH_DIR}"
 	[ -f "${GITHUB_WORKSPACE}/${FILE_NAME}" ] && _TYPE1="f" && _TYPE2="File"
 	[ -d "${GITHUB_WORKSPACE}/${FILE_NAME}" ] && _TYPE1="d" && _TYPE2="Folder"
 	if [ -e "${GITHUB_WORKSPACE}/${FILE_NAME}" ];then
