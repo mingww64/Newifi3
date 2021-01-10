@@ -21,8 +21,8 @@ Diy-Part1() {
 	# ExtraPackages svn network/services hostapd https://github.com/openwrt/openwrt/trunk/package/network/services
 	# ExtraPackages svn kernel mt76 https://github.com/openwrt/openwrt/trunk/package/kernel
 	
-	ExtraPackages git lean helloworld https://github.com/fw876 master
-	ExtraPackages git lean luci-theme-argon https://github.com/jerrykuku 18.06
+	ExtraPackages git lean helloworld https://github.com/fw876
+	ExtraPackages gitt lean luci-theme-argon https://github.com/jerrykuku 18.06
 	ExtraPackages git other luci-app-argon-config https://github.com/jerrykuku master
 	ExtraPackages git other luci-app-adguardhome https://github.com/Hyy2001X master
 	ExtraPackages svn other luci-app-smartdns https://github.com/project-openwrt/openwrt/trunk/package/ntlf9t
