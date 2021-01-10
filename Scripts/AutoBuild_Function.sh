@@ -111,15 +111,14 @@ Replace_File() {
 	FILE_NAME=${1}
 	PATCH_DIR=${GITHUB_WORKSPACE}/openwrt/${2}
 	FILE_RENAME=${3}
+	
 	[ ! -d "${PATCH_DIR}" ] && mkdir -p "${PATCH_DIR}"
-
 	[ -f "${GITHUB_WORKSPACE}/${FILE_NAME}" ] && _TYPE1="f" && _TYPE2="File"
 	[ -d "${GITHUB_WORKSPACE}/${FILE_NAME}" ] && _TYPE1="d" && _TYPE2="Folder"
-	
 	if [ -e "${GITHUB_WORKSPACE}/${FILE_NAME}" ];then
 		[[ ! -z "${FILE_RENAME}" ]] && _RENAME="${FILE_RENAME}" || _RENAME=""
 		if [ -${_TYPE1} "${GITHUB_WORKSPACE}/${FILE_NAME}" ];then
-			echo "[$(date "+%H:%M:%S")] Moving [${_TYPE_2}] ${FILE_NAME} to ${2}/${FILE_RENAME} ..."
+			echo "[$(date "+%H:%M:%S")] Moving [${_TYPE2}] ${FILE_NAME} to ${2}/${FILE_RENAME} ..."
 			mv -f ${GITHUB_WORKSPACE}/${FILE_NAME} ${PATCH_DIR}/${_RENAME}
 		else
 			echo "[$(date "+%H:%M:%S")] Customize ${_TYPE2} [${FILE_NAME}] is not detected,skip move ..."
