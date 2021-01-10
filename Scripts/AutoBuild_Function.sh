@@ -33,9 +33,8 @@ Diy_Part1_Base() {
 
 Diy_Part2_Base() {
 	GET_TARGET_INFO
-	if [[ ! "$(cat .config)" =~ "CONFIG_PACKAGE_luci-app-autoupdate=y" ]];then
-		echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
-	fi
+	sed -i '/luci-app-autoupdate/d' .config > /dev/null 2>&1
+	echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
 	echo "Author: ${Author}"
 	echo "Openwrt Version: ${Openwrt_Version}"
 	echo "AutoUpdate Version: ${AutoUpdate_Version}"
