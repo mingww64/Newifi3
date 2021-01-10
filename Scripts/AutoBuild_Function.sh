@@ -66,7 +66,7 @@ Replace_File() {
 	if [ -e "${GITHUB_WORKSPACE}/${FILE_NAME}" ];then
 		[[ ! -z "${FILE_RENAME}" ]] && _RENAME="${FILE_RENAME}" || _RENAME=""
 		if [ -${_TYPE1} "${GITHUB_WORKSPACE}/${FILE_NAME}" ];then
-			echo "[$(date "+%H:%M:%S")] Move ${FILE_NAME} to ${PATCH_DIR}/${FILE_RENAME} ..."
+			echo "[$(date "+%H:%M:%S")] Moving [${_TYPE_2}] ${FILE_NAME} to ${2}/${FILE_RENAME} ..."
 			mv -f ${GITHUB_WORKSPACE}/${FILE_NAME} ${PATCH_DIR}/${_RENAME}
 		else
 			echo "[$(date "+%H:%M:%S")] Customize ${_TYPE2} [${FILE_NAME}] is not detected,skip move ..."
@@ -89,7 +89,7 @@ Update_Makefile() {
 		Source_HASH="$(grep "PKG_HASH:=" ${Makefile} | cut -c11-100)"
 		echo -e "Current ${PKG_NAME} version: ${Source_Version}\nOffical ${PKG_NAME} version: ${Offical_Version}"
 		if [[ ! "${Source_Version}" == "${Offical_Version}" ]];then
-			echo -e "Update package ${PKG_NAME} [${Source_Version}] to [${Offical_Version}] ..."
+			echo -e "Updating package ${PKG_NAME} [${Source_Version}] to [${Offical_Version}] ..."
 			sed -i "s?PKG_VERSION:=${Source_Version}?PKG_VERSION:=${Offical_Version}?g" ${Makefile}
 			wget -q "${PKG_DL_URL}${Offical_Version}?" -O /tmp/tmp_file
 			if [[ $? == 0 ]];then
