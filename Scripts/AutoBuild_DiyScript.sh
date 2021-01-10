@@ -9,7 +9,7 @@ Diy_Core() {
 }
 
 Diy-Part1() {
-	# [ -e feeds.conf.default ] && sed -i "s/#src-git helloworld/src-git helloworld/g" feeds.conf.default
+	echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
 	[ ! -d package/lean ] && mkdir -p package/lean
 	
 	Update_Makefile xray package/lean/xray

@@ -16,7 +16,7 @@ GET_TARGET_INFO() {
 	[ -z "${TARGET_PROFILE}" ] && TARGET_PROFILE="${Default_Device}"
 	TARGET_BOARD=$(awk -F '[="]+' '/TARGET_BOARD/{print $2}' .config)
 	TARGET_SUBTARGET=$(awk -F '[="]+' '/TARGET_SUBTARGET/{print $2}' .config)
-	Github_Repo="$(grep "https://github.com/[a-zA-Z0-9]" .git/config | cut -c8-100)"
+	Github_Repo="$(grep "https://github.com/[a-zA-Z0-9]" ${GITHUB_WORKSPACE}/.git/config | cut -c8-100)"
 }
 
 ExtraPackages() {
