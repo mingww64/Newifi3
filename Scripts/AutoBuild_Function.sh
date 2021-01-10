@@ -19,6 +19,48 @@ GET_TARGET_INFO() {
 	Github_Repo="$(grep "https://github.com/[a-zA-Z0-9]" ${GITHUB_WORKSPACE}/.git/config | cut -c8-100)"
 }
 
+Diy_Part1_Base() {
+	[ ! -d package/lean ] && mkdir -p package/lean
+	if [[ ! "$(cat .config)" =~ "CONFIG_PACKAGE_luci-app-autoupdate=y" ]];then
+		echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
+	fi
+	
+	Update_Makefile xray package/lean/xray
+	Update_Makefile v2ray package/lean/v2ray
+	Update_Makefile v2ray-plugin package/lean/v2ray-plugin
+	Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
+	Replace_File Scripts/AutoBuild_Tools.sh package/base-files/files/bin
+	ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
+}
+
+
+Diy_Part2_Base() {
+	GET_TARGET_INFO
+	echo "Author: ${Author}"
+	echo "Openwrt Version: ${Openwrt_Version}"
+	echo "AutoUpdate Version: ${AutoUpdate_Version}"
+	echo "Router: ${TARGET_PROFILE}"
+	echo "Github: ${Github_Repo}"
+	[ -f $Default_File ] && sed -i "s?${Lede_Version}?${Lede_Version} Compiled by ${Author} [${Display_Date}]?g" $Default_File
+	echo "${Openwrt_Version}" > package/base-files/files/etc/openwrt_info
+	echo "${Github_Repo}" >> package/base-files/files/etc/openwrt_info
+	echo "${TARGET_PROFILE}" >> package/base-files/files/etc/openwrt_info
+	sed -i "s?Openwrt?Openwrt ${Openwrt_Version} / AutoUpdate ${AutoUpdate_Version}?g" package/base-files/files/etc/banner
+}
+
+Diy_Part3_Base() {
+	GET_TARGET_INFO
+	Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
+	AutoBuild_Firmware="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}.bin"
+	AutoBuild_Detail="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}.detail"
+	mkdir -p bin/Firmware
+	echo "Firmware: ${AutoBuild_Firmware}"
+	mv -f bin/targets/"${TARGET_BOARD}/${TARGET_SUBTARGET}/${Default_Firmware}" bin/Firmware/"${AutoBuild_Firmware}"
+	_MD5=$(md5sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
+	_SHA256=$(sha256sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
+	echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/"${AutoBuild_Detail}"
+}
+
 ExtraPackages() {
 	PKG_PROTO=${1}
 	PKG_DIR=${2}
