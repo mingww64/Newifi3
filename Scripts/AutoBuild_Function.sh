@@ -21,9 +21,6 @@ GET_TARGET_INFO() {
 
 Diy_Part1_Base() {
 	[ ! -d package/lean ] && mkdir -p package/lean
-	if [[ ! "$(cat .config)" =~ "CONFIG_PACKAGE_luci-app-autoupdate=y" ]];then
-		echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
-	fi
 	
 	Update_Makefile xray package/lean/xray
 	Update_Makefile v2ray package/lean/v2ray
@@ -36,6 +33,9 @@ Diy_Part1_Base() {
 
 Diy_Part2_Base() {
 	GET_TARGET_INFO
+	if [[ ! "$(cat .config)" =~ "CONFIG_PACKAGE_luci-app-autoupdate=y" ]];then
+		echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
+	fi
 	echo "Author: ${Author}"
 	echo "Openwrt Version: ${Openwrt_Version}"
 	echo "AutoUpdate Version: ${AutoUpdate_Version}"
@@ -88,7 +88,7 @@ ExtraPackages() {
 			svn checkout ${REPO_URL}/${PKG_NAME} ${PKG_NAME} > /dev/null 2>&1
 		;;
 		*)
-			echo "[$(date "+%H:%M:%S")] Wrong proto[Only git and svn],skip check out..."
+			echo "[$(date "+%H:%M:%S")] Wrong option: ${PKG_PROTO} (Can only use git and svn),skip check out..."
 			break
 		;;
 		esac
