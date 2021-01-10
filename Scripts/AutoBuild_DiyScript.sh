@@ -6,6 +6,10 @@
 Diy_Core() {
 	Author=Hyy2001
 	Default_Device=d-team_newifi-d2
+
+	INCLUDE_AutoUpdate=true
+	INCLUDE_SSR_Plus=true
+	INCLUDE_Latest_Ray=true
 }
 
 Diy-Part1() {
