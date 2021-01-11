@@ -5,8 +5,6 @@
 
 GET_TARGET_INFO() {
 	[ -f ${GITHUB_WORKSPACE}/Openwrt.info ] && . ${GITHUB_WORKSPACE}/Openwrt.info
-	AutoUpdate_Version=$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')
-	[ -z ${AutoUpdate_Version} ] && AutoUpdate_Version="未知"
 	Default_File="package/lean/default-settings/files/zzz-default-settings"
 	[ -f ${Default_File} ] && Lede_Version=$(egrep -o "R[0-9]+\.[0-9]+\.[0-9]+" $Default_File)
 	[ -z ${Lede_Version} ] && Lede_Version="Openwrt"
@@ -37,13 +35,14 @@ Diy_Part1_Base() {
 Diy_Part2_Base() {
 	Diy_Core
 	GET_TARGET_INFO
-	#if [ "${INCLUDE_AutoUpdate}" == "true" ];then
+	if [ "${INCLUDE_AutoUpdate}" == "true" ];then
 		Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
 		ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
 		sed -i '/luci-app-autoupdate/d' .config > /dev/null 2>&1
 		echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
 	#fi
-
+	AutoUpdate_Version=$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')
+	[[ -z "${AutoUpdate_Version}" ]] && AutoUpdate_Version="Unknown version"
 	echo "Author: ${Author}"
 	echo "Openwrt Version: ${Openwrt_Version}"
 	echo "AutoUpdate Version: ${AutoUpdate_Version}"
