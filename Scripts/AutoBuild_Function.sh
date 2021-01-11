@@ -4,7 +4,6 @@
 # AutoBuild Functions
 
 GET_TARGET_INFO() {
-	Diy_Core
 	[ -f ${GITHUB_WORKSPACE}/Openwrt.info ] && . ${GITHUB_WORKSPACE}/Openwrt.info
 	AutoUpdate_Version=$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')
 	[ -z ${AutoUpdate_Version} ] && AutoUpdate_Version="未知"
@@ -36,6 +35,7 @@ Diy_Part1_Base() {
 
 
 Diy_Part2_Base() {
+	Diy_Core
 	GET_TARGET_INFO
 	if [ "${INCLUDE_AutoUpdate}" == "true" ];then
 		Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
@@ -57,6 +57,7 @@ Diy_Part2_Base() {
 }
 
 Diy_Part3_Base() {
+	Diy_Core
 	GET_TARGET_INFO
 	Default_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 	AutoBuild_Firmware="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}.bin"
