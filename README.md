@@ -63,7 +63,9 @@
 
    检查更新(不保留配置): `bash /bin/AutoUpdate.sh -n`
    
-   更新到最新稳定版: `bash /bin/AutoUpdate.sh -s`
+   更新到最新稳定版(保留配置): `bash /bin/AutoUpdate.sh -s`
+   
+   更新到最新稳定版(不保留配置): `bash /bin/AutoUpdate.sh -sn`
    
 ## 使用一键扩展内部空间\挂载 Samba 脚本:
 
