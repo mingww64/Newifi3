@@ -31,7 +31,6 @@ Diy_Part1_Base() {
 	Replace_File Scripts/AutoBuild_Tools.sh package/base-files/files/bin
 }
 
-
 Diy_Part2_Base() {
 	Diy_Core
 	GET_TARGET_INFO
