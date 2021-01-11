@@ -37,12 +37,12 @@ Diy_Part1_Base() {
 Diy_Part2_Base() {
 	Diy_Core
 	GET_TARGET_INFO
-	if [ "${INCLUDE_AutoUpdate}" == "true" ];then
+	#if [ "${INCLUDE_AutoUpdate}" == "true" ];then
 		Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
 		ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
 		sed -i '/luci-app-autoupdate/d' .config > /dev/null 2>&1
 		echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
-	fi
+	#fi
 
 	echo "Author: ${Author}"
 	echo "Openwrt Version: ${Openwrt_Version}"
