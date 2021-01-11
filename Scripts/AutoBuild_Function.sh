@@ -20,7 +20,7 @@ GET_TARGET_INFO() {
 }
 
 Diy_Part1_Base() {
-	GET_TARGET_INFO
+	Diy_Core
 	Mkdir package/lean
 	if [ "${INCLUDE_Latest_Ray}" == "true" ];then
 		Update_Makefile xray package/lean/xray
