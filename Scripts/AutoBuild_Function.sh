@@ -39,7 +39,7 @@ Diy_Part2_Base() {
 		ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
 		sed -i '/luci-app-autoupdate/d' .config > /dev/null 2>&1
 		echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
-	#fi
+	fi
 	AutoUpdate_Version=$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')
 	[[ -z "${AutoUpdate_Version}" ]] && AutoUpdate_Version="Unknown version"
 	echo "Author: ${Author}"
