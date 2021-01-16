@@ -116,7 +116,7 @@ ExtraPackages() {
 			break
 		;;
 		esac
-		if [ -f ${PKG_NAME}/Makefile ] || [ -f ${PKG_NAME}/README* ] || [ ! "$(ls -A ${PKG_NAME})" = "" ];then
+		if [ "$?" -eq 0 ] || [ -f ${PKG_NAME}/Makefile ] || [ -f ${PKG_NAME}/README* ] || [ ! "$(ls -A ${PKG_NAME})" = "" ];then
 			echo "[$(date "+%H:%M:%S")] Package [${PKG_NAME}] is detected!"
 			mv -f ${PKG_NAME} package/${PKG_DIR}
 			break
