@@ -8,7 +8,9 @@ Diy_Core() {
 	Default_Device=d-team_newifi-d2
 
 	INCLUDE_AutoUpdate=true
+	INCLUDE_AutoBuild_Tools=true
 	INCLUDE_SSR_Plus=true
+	INCLUDE_Passwall=false
 	INCLUDE_Latest_Ray=true
 }
 
@@ -21,7 +23,7 @@ Diy-Part1() {
 
 	# ExtraPackages svn network/services dnsmasq https://github.com/openwrt/openwrt/trunk/package/network/services
 	# ExtraPackages svn network/services dropbear https://github.com/openwrt/openwrt/trunk/package/network/services
-	ExtraPackages svn network/services ppp https://github.com/openwrt/openwrt/trunk/package/network/services
+	# ExtraPackages svn network/services ppp https://github.com/openwrt/openwrt/trunk/package/network/services
 	# ExtraPackages svn network/services hostapd https://github.com/openwrt/openwrt/trunk/package/network/services
 	ExtraPackages svn kernel mt76 https://github.com/openwrt/openwrt/trunk/package/kernel
 	

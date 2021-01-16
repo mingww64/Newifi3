@@ -28,7 +28,12 @@ Diy_Part1_Base() {
 		ExtraPackages git lean helloworld https://github.com/fw876 master
 		sed -i 's/143/143,25,5222/' package/lean/helloworld/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 	fi
-	Replace_File Scripts/AutoBuild_Tools.sh package/base-files/files/bin
+	if [ "${INCLUDE_AutoBuild_Tools}" == "true" ];then
+		Replace_File Scripts/AutoBuild_Tools.sh package/base-files/files/bin
+	fi
+	if [ "${INCLUDE_Passwall}" == "true" ];then
+		ExtraPackages git lienol openwrt-passwall https://github.com/xiaorouji main
+	fi
 }
 
 Diy_Part2_Base() {
@@ -37,7 +42,7 @@ Diy_Part2_Base() {
 	if [ "${INCLUDE_AutoUpdate}" == "true" ];then
 		ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
 		sed -i '/luci-app-autoupdate/d' .config > /dev/null 2>&1
-		echo "CONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
+		echo -e "\nCONFIG_PACKAGE_luci-app-autoupdate=y" >> .config
 		Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
 		AutoUpdate_Version=$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')
 		[[ -z "${AutoUpdate_Version}" ]] && AutoUpdate_Version="Unknown"
@@ -111,7 +116,7 @@ ExtraPackages() {
 			break
 		;;
 		esac
-		if [ -f ${PKG_NAME}/Makefile ] || [ -f ${PKG_NAME}/README* ];then
+		if [ -f ${PKG_NAME}/Makefile ] || [ -f ${PKG_NAME}/README* ] || [ ! "$(ls -A ${PKG_NAME})" = "" ];then
 			echo "[$(date "+%H:%M:%S")] Package [${PKG_NAME}] is detected!"
 			mv -f ${PKG_NAME} package/${PKG_DIR}
 			break
