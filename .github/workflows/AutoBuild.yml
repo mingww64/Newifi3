@@ -29,8 +29,8 @@ env:
   DIY_SCRIPT: Scripts/AutoBuild_DiyScript.sh
   FUNCTION_SCRIPT: Scripts/AutoBuild_Function.sh
   UPLOAD_RELEASE: true
-  UPLOAD_FIRMWARE: true
-  UPLOAD_BIN_DIR: false
+  UPLOAD_FIRMWARE: false
+  UPLOAD_BIN_DIR: true
   REMOVE_OLD_RELEASE: false
   REMOVE_WORKFLOW_RUNS: true
 
