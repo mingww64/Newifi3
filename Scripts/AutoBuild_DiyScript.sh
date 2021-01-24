@@ -28,17 +28,16 @@ Diy-Part1() {
 	# ExtraPackages svn network/services ppp https://github.com/openwrt/openwrt/trunk/package/network/services
 	# ExtraPackages svn network/services hostapd https://github.com/openwrt/openwrt/trunk/package/network/services
 	# ExtraPackages svn kernel mt76 https://github.com/openwrt/openwrt/trunk/package/kernel
-	# ExtraPackages git kernel mt76 https://github.com/openwrt master
-	
+
 	ExtraPackages git lean helloworld https://github.com/fw876 master
 	ExtraPackages git lean luci-theme-argon https://github.com/jerrykuku 18.06
 	ExtraPackages git other luci-app-argon-config https://github.com/jerrykuku master
 	ExtraPackages git other luci-app-adguardhome https://github.com/Hyy2001X master
-	ExtraPackages svn other luci-app-smartdns https://github.com/project-openwrt/openwrt/trunk/package/ntlf9t
-	ExtraPackages svn other smartdns https://github.com/project-openwrt/openwrt/trunk/package/ntlf9t
+	ExtraPackages svn other luci-app-smartdns https://github.com/kenzok8/openwrt-packages/trunk
+	ExtraPackages svn other smartdns https://github.com/kenzok8/openwrt-packages/trunk
 	ExtraPackages git other OpenClash https://github.com/vernesong master
 	ExtraPackages git other luci-app-serverchan https://github.com/tty228 master
-	ExtraPackages svn other luci-app-socat https://github.com/project-openwrt/openwrt/trunk/package/lienol
+	ExtraPackages svn other luci-app-socat https://github.com/Lienol/openwrt-package/trunk
 }
 
 Diy-Part2() {
