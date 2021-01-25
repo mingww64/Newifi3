@@ -22,8 +22,6 @@ Diy_Part1_Base() {
 	if [[ "${INCLUDE_SSR_Plus}" == "true" ]];then
 		ExtraPackages git lean helloworld https://github.com/fw876 master
 		sed -i 's/143/143,25,5222/' package/lean/helloworld/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
-	else
-		sed -i '/luci-app-ssr-plus=y/d' .config > /dev/null 2>&1
 	fi
 	if [[ "${INCLUDE_Latest_Xray}" == "true" ]];then
 		Update_Makefile xray package/lean/helloworld/xray
@@ -35,8 +33,6 @@ Diy_Part1_Base() {
 	fi
 	if [[ "${INCLUDE_Passwall}" == "true" ]];then
 		ExtraPackages git lienol openwrt-passwall https://github.com/xiaorouji main
-	else
-		sed -i '/luci-app-passwall=y/d' .config > /dev/null 2>&1
 	fi
 	if [[ "${INCLUDE_mt7621_OC1000MHz}" == "true" ]];then
 		Replace_File Customize/102-mt7621-fix-cpu-clk-add-clkdev.patch target/linux/ramips/patches-5.4
