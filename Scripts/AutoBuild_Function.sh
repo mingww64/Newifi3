@@ -169,14 +169,18 @@ Update_Makefile() {
 		api_URL="https://api.github.com/repos/${_process2}/releases"
 		PKG_DL_URL="https://codeload.github.com/${_process2}/tar.gz/v"
 		Offical_Version="$(curl -s ${api_URL} 2>/dev/null | grep 'tag_name' | egrep -o '[0-9].+[0-9.]+' | awk 'NR==1')"
-		if [[ -z "${Offical_Version}" ]] && [[ ! "$?" -eq 0 ]];then
+		if [[ -z "${Offical_Version}" ]] || [[ ! "$?" -eq 0 ]];then
 			echo "Failed to obtain the Offical version,skip update ..."
 			return
 		fi
 		Source_Version="$(grep "PKG_VERSION:=" ${Makefile} | cut -c14-20)"
 		Source_HASH="$(grep "PKG_HASH:=" ${Makefile} | cut -c11-100)"
+		if [[ -z "${Source_Version}" ]] || [[ -z "${Source_HASH}" ]];then
+			echo "Failed to obtain the Source version or HASH,skip update ..."
+			return
+		fi
 		echo -e "Current ${PKG_NAME} version: ${Source_Version}\nOffical ${PKG_NAME} version: ${Offical_Version}"
-		if [[ ! "${Source_Version}" == "${Offical_Version}" ]] && [[ ! "$?" -eq 0 ]];then
+		if [[ ! "${Source_Version}" == "${Offical_Version}" ]];then
 			echo -e "Updating package ${PKG_NAME} [${Source_Version}] to [${Offical_Version}] ..."
 			sed -i "s?PKG_VERSION:=${Source_Version}?PKG_VERSION:=${Offical_Version}?g" ${Makefile}
 			wget -q "${PKG_DL_URL}${Offical_Version}?" -O /tmp/tmp_file
@@ -190,5 +194,5 @@ Update_Makefile() {
 	else
 		echo "Package ${PKG_NAME} is not detected,skip update ..."
 	fi
-	unset _process1 _process2 Offical_Version
+	unset _process1 _process2 Offical_Version Source_Version
 }
