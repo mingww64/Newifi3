@@ -168,7 +168,7 @@ Update_Makefile() {
 		_process1=${PKG_URL_MAIN##*com/}
 		_process2=${_process1%%/tar*}
 		api_URL="https://api.github.com/repos/${_process2}/releases"
-		PKG_DL_URL="https://codeload.github.com/${_process2}/tar.gz"
+		PKG_DL_URL="https://codeload.github.com/${_process2}/tar.gz/"
 		Offical_Version="v$(curl -s ${api_URL} 2>/dev/null | grep 'tag_name' | egrep -o '[0-9].+[0-9.]+' | awk 'NR==1')"
 		if [[ -z "${Offical_Version}" ]];then
 			echo "Failed to obtain the Offical version of [${PKG_NAME}],skip update ..."
