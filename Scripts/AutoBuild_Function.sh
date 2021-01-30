@@ -184,7 +184,7 @@ Update_Makefile() {
 		if [[ ! "${Source_Version}" == "${Offical_Version}" ]];then
 			echo -e "Updating package ${PKG_NAME} [${Source_Version}] to [${Offical_Version}] ..."
 			sed -i "s?PKG_VERSION:=${Source_Version}?PKG_VERSION:=${Offical_Version}?g" ${Makefile}
-			wget -q "${PKG_DL_URL}${Offical_Version}?" -O /tmp/tmp_file 2>&1
+			wget "${PKG_DL_URL}${Offical_Version}?" -O /tmp/tmp_file
 			if [[ "$?" -eq 0 ]];then
 				Offical_HASH=$(sha256sum /tmp/tmp_file | cut -d ' ' -f1)
 				sed -i "s?PKG_HASH:=${Source_HASH}?PKG_HASH:=${Offical_HASH}?g" ${Makefile}
