@@ -168,13 +168,14 @@ Update_Makefile() {
 		_process1=${PKG_URL_MAIN##*com/}
 		_process2=${_process1%%/tar*}
 		api_URL="https://api.github.com/repos/${_process2}/releases"
-		PKG_DL_URL="https://codeload.github.com/${_process2}/tar.gz/"
-		Offical_Version="v$(curl -s ${api_URL} 2>/dev/null | grep 'tag_name' | egrep -o '[0-9].+[0-9.]+' | awk 'NR==1')"
+		PKG_SOURCE_URL="$(grep "PKG_SOURCE_URL:=" ${Makefile} | cut -c14-20)"
+		PKG_DL_URL="$(echo "${PKG_SOURCE_URL%\$(\PKG_VERSION*}")"
+		Offical_Version="$(curl -s ${api_URL} 2>/dev/null | grep 'tag_name' | egrep -o '[0-9].+[0-9.]+' | awk 'NR==1')"
 		if [[ -z "${Offical_Version}" ]];then
 			echo "Failed to obtain the Offical version of [${PKG_NAME}],skip update ..."
 			return
 		fi
-		Source_Version="v$(grep "PKG_VERSION:=" ${Makefile} | cut -c14-20)"
+		Source_Version="$(grep "PKG_VERSION:=" ${Makefile} | cut -c14-20)"
 		Source_HASH="$(grep "PKG_HASH:=" ${Makefile} | cut -c11-100)"
 		if [[ -z "${Source_Version}" ]] || [[ -z "${Source_HASH}" ]];then
 			echo "Failed to obtain the Source version or HASH,skip update ..."
