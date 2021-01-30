@@ -23,7 +23,7 @@ Diy_Part1_Base() {
 		ExtraPackages git lean helloworld https://github.com/fw876 master
 		sed -i 's/143/143,25,5222/' package/lean/helloworld/luci-app-ssr-plus/root/etc/init.d/shadowsocksr
 	fi
-	if [[ "${INCLUDE_Latest_Xray}" == "true" ]];then
+	if [[ "${INCLUDE_Keep_Latest_Xray}" == "true" ]];then
 		Update_Makefile xray package/lean/helloworld/xray
 		Update_Makefile v2ray package/lean/v2ray
 		Update_Makefile v2ray-plugin package/lean/v2ray-plugin
