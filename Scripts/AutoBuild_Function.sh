@@ -169,7 +169,7 @@ Update_Makefile() {
 		_process2=${_process1%%/tar*}
 		api_URL="https://api.github.com/repos/${_process2}/releases"
 		PKG_SOURCE_URL="$(grep "PKG_SOURCE_URL:=" ${Makefile} | cut -c14-20)"
-		PKG_DL_URL="$(echo "${PKG_SOURCE_URL%\$(\PKG_VERSION*}")"
+		PKG_DL_URL="${PKG_SOURCE_URL%\$(\PKG_VERSION*}"
 		Offical_Version="$(curl -s ${api_URL} 2>/dev/null | grep 'tag_name' | egrep -o '[0-9].+[0-9.]+' | awk 'NR==1')"
 		if [[ -z "${Offical_Version}" ]];then
 			echo "Failed to obtain the Offical version of [${PKG_NAME}],skip update ..."
