@@ -162,6 +162,7 @@ Replace_File() {
 Update_Makefile() {
 	PKG_NAME="$1"
 	Makefile="$2/Makefile"
+	[ -f /tmp/tmp_file ] && rm -f /tmp/tmp_file
 	if [ -f "${Makefile}" ];then
 		PKG_URL_MAIN="$(grep "PKG_SOURCE_URL:=" ${Makefile} | cut -c17-100)"
 		_process1=${PKG_URL_MAIN##*com/}
@@ -183,7 +184,7 @@ Update_Makefile() {
 		if [[ ! "${Source_Version}" == "${Offical_Version}" ]];then
 			echo -e "Updating package ${PKG_NAME} [${Source_Version}] to [${Offical_Version}] ..."
 			sed -i "s?PKG_VERSION:=${Source_Version}?PKG_VERSION:=${Offical_Version}?g" ${Makefile}
-			wget -q "${PKG_DL_URL}${Offical_Version}?" -O /tmp/tmp_file
+			wget -q "${PKG_DL_URL}${Offical_Version}?" -O /tmp/tmp_file 2>&1
 			if [[ "$?" -eq 0 ]];then
 				Offical_HASH=$(sha256sum /tmp/tmp_file | cut -d ' ' -f1)
 				sed -i "s?PKG_HASH:=${Source_HASH}?PKG_HASH:=${Offical_HASH}?g" ${Makefile}
