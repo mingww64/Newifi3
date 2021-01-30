@@ -169,8 +169,8 @@ Update_Makefile() {
 		api_URL="https://api.github.com/repos/${_process2}/releases"
 		PKG_DL_URL="https://codeload.github.com/${_process2}/tar.gz/v"
 		Offical_Version="$(curl -s ${api_URL} 2>/dev/null | grep 'tag_name' | egrep -o '[0-9].+[0-9.]+' | awk 'NR==1')"
-		if [[ -z "${Offical_Version}" ]] || [[ ! "$?" -eq 0 ]];then
-			echo "Failed to obtain the Offical version,skip update ..."
+		if [[ -z "${Offical_Version}" ]];then
+			echo "Failed to obtain the Offical version of [${PKG_NAME}],skip update ..."
 			return
 		fi
 		Source_Version="$(grep "PKG_VERSION:=" ${Makefile} | cut -c14-20)"
