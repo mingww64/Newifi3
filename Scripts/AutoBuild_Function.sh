@@ -64,17 +64,17 @@ Diy_Part2_Base() {
 		AutoUpdate_Version=$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')
 		[[ -z "${AutoUpdate_Version}" ]] && AutoUpdate_Version="Unknown"
 		sed -i "s?Openwrt?Openwrt ${Openwrt_Version} / AutoUpdate ${AutoUpdate_Version}?g" package/base-files/files/etc/banner
-		echo "AutoUpdate Version: ${AutoUpdate_Version}"
+		echo "AutoUpdate 版本: ${AutoUpdate_Version}"
 	else
 		sed -i "s?Openwrt?Openwrt ${Openwrt_Version}?g" package/base-files/files/etc/banner
 	fi
 	Replace_File Customize/uhttpd.po feeds/luci/applications/luci-app-uhttpd/po/zh-cn
 	Replace_File Customize/webadmin.po package/lean/luci-app-webadmin/po/zh-cn
 	[[ -z "${Author}" ]] && Author="Unknown"
-	echo "Author: ${Author}"
-	echo "Openwrt Version: ${Openwrt_Version}"
-	echo "Router: ${TARGET_PROFILE}"
-	echo "Github: ${Github_Repo}"
+	echo "固件作者: ${Author}"
+	echo "Openwrt 版本号: ${Openwrt_Version}"
+	echo "设备名称: ${TARGET_PROFILE}"
+	echo "Github 地址: ${Github_Repo}"
 	[ -f "$Default_File" ] && sed -i "s?${Lede_Version}?${Lede_Version} Compiled by ${Author} [${Display_Date}]?g" $Default_File
 	echo "${Openwrt_Version}" > package/base-files/files/etc/openwrt_info
 	echo "${Github_Repo}" >> package/base-files/files/etc/openwrt_info
@@ -98,7 +98,7 @@ Diy_Part3_Base() {
 Mkdir() {
 	_DIR=${1}
 	if [ ! -d "${_DIR}" ];then
-		echo "[$(date "+%H:%M:%S")] Creating new folder [${_DIR}] ..."
+		echo "[$(date "+%H:%M:%S")] 创建新文件夹: [${_DIR}] ..."
 		mkdir -p ${_DIR}
 	fi
 	unset _DIR
@@ -117,12 +117,12 @@ ExtraPackages() {
 	Retry_Times=3
 	while [ ! -f "${PKG_NAME}/Makefile" ]
 	do
-		echo "[$(date "+%H:%M:%S")] Checking out package [${PKG_NAME}] to package/${PKG_DIR} ..."
+		echo "[$(date "+%H:%M:%S")] 正在添加 [${PKG_NAME}] 到 package/${PKG_DIR} ..."
 		case "${PKG_PROTO}" in
 		git)
 		
 			if [[ -z "${REPO_BRANCH}" ]];then
-				echo "[$(date "+%H:%M:%S")] Missing important options,skip check out..."
+				echo "[$(date "+%H:%M:%S")] 缺少重要参数,跳过添加..."
 				break
 			fi
 			git clone -b ${REPO_BRANCH} ${REPO_URL}/${PKG_NAME} ${PKG_NAME} > /dev/null 2>&1
@@ -131,17 +131,17 @@ ExtraPackages() {
 			svn checkout ${REPO_URL}/${PKG_NAME} ${PKG_NAME} > /dev/null 2>&1
 		;;
 		*)
-			echo "[$(date "+%H:%M:%S")] Wrong option: ${PKG_PROTO} (Can only use git and svn),skip check out..."
+			echo "[$(date "+%H:%M:%S")] 错误的参数: ${PKG_PROTO} (仅支持 git 和 svn),跳过添加..."
 			break
 		;;
 		esac
 		if [ "$?" -eq 0 ] || [ -f ${PKG_NAME}/Makefile ] || [ -f ${PKG_NAME}/README* ] || [ ! "$(ls -A ${PKG_NAME})" = "" ];then
-			echo "[$(date "+%H:%M:%S")] Package [${PKG_NAME}] is detected!"
+			echo "[$(date "+%H:%M:%S")] 软件包 [${PKG_NAME}] 添加成功!"
 			mv -f ${PKG_NAME} package/${PKG_DIR}
 			break
 		else
 			[ ${Retry_Times} -lt 1 ] && echo "[$(date "+%H:%M:%S")] Skip check out package [${PKG_NAME}] ..." && break
-			echo "[$(date "+%H:%M:%S")] [Error] [${Retry_Times}] Checkout failed,retry in 3s ..."
+			echo "[$(date "+%H:%M:%S")] [Error] [${Retry_Times}] 添加失败,将在 3 秒后重试 ..."
 			Retry_Times=$(($Retry_Times - 1))
 			rm -rf ${PKG_NAME}
 			sleep 3
@@ -161,10 +161,10 @@ Replace_File() {
 	if [ -e "${GITHUB_WORKSPACE}/${FILE_NAME}" ];then
 		[[ ! -z "${FILE_RENAME}" ]] && _RENAME="${FILE_RENAME}" || _RENAME=""
 		if [ -${_TYPE1} "${GITHUB_WORKSPACE}/${FILE_NAME}" ];then
-			echo "[$(date "+%H:%M:%S")] Moving [${_TYPE2}] ${FILE_NAME} to ${2}/${FILE_RENAME} ..."
+			echo "[$(date "+%H:%M:%S")] 正在移动 [${_TYPE2}]: ${FILE_NAME} 到 ${2}/${FILE_RENAME} ..."
 			mv -f ${GITHUB_WORKSPACE}/${FILE_NAME} ${PATCH_DIR}/${_RENAME}
 		else
-			echo "[$(date "+%H:%M:%S")] Customize ${_TYPE2} [${FILE_NAME}] is not detected,skip move ..."
+			echo "[$(date "+%H:%M:%S")] 未找到自定义 [${_TYPE2}]: ${FILE_NAME},跳过移动 ..."
 		fi
 	fi
 	unset FILE_NAME PATCH_DIR FILE_RENAME _RENAME _TYPE1 _TYPE2
@@ -183,29 +183,29 @@ Update_Makefile() {
 		PKG_DL_URL="${PKG_SOURCE_URL%\$(\PKG_VERSION*}"
 		Offical_Version="$(curl -s ${api_URL} 2>/dev/null | grep 'tag_name' | egrep -o '[0-9].+[0-9.]+' | awk 'NR==1')"
 		if [[ -z "${Offical_Version}" ]];then
-			echo "Failed to obtain the Offical version of [${PKG_NAME}],skip update ..."
+			echo "无法获取 [${PKG_NAME}] 官方版本号,跳过更新 ..."
 			return
 		fi
 		Source_Version="$(grep "PKG_VERSION:=" ${Makefile} | cut -c14-20)"
 		Source_HASH="$(grep "PKG_HASH:=" ${Makefile} | cut -c11-100)"
 		if [[ -z "${Source_Version}" ]] || [[ -z "${Source_HASH}" ]];then
-			echo "Failed to obtain the Source version or HASH,skip update ..."
+			echo "无法获取 [${PKG_NAME}] 当前版本号或哈希值,跳过更新 ..."
 			return
 		fi
-		echo -e "Current ${PKG_NAME} version: ${Source_Version}\nOffical ${PKG_NAME} version: ${Offical_Version}"
+		echo -e "当前 ${PKG_NAME} 版本号: ${Source_Version}\n官方 ${PKG_NAME} 版本号: ${Offical_Version}"
 		if [[ ! "${Source_Version}" == "${Offical_Version}" ]];then
-			echo -e "Updating package ${PKG_NAME} [${Source_Version}] to [${Offical_Version}] ..."
+			echo -e "更新软件包 ${PKG_NAME} [${Source_Version}] 到 [${Offical_Version}] ..."
 			sed -i "s?PKG_VERSION:=${Source_Version}?PKG_VERSION:=${Offical_Version}?g" ${Makefile}
 			wget -q "${PKG_DL_URL}${Offical_Version}?" -O /tmp/tmp_file
 			if [[ "$?" -eq 0 ]];then
 				Offical_HASH="$(sha256sum /tmp/tmp_file | cut -d ' ' -f1)"
 				sed -i "s?PKG_HASH:=${Source_HASH}?PKG_HASH:=${Offical_HASH}?g" ${Makefile}
 			else
-				echo "Failed to update the package [${PKG_NAME}],skip update ..."
+				echo "软件包 [${PKG_NAME}] 更新失败!"
 			fi
 		fi
 	else
-		echo "Package ${PKG_NAME} is not detected,skip update ..."
+		echo "未检测到软件包: ${PKG_NAME},跳过更新 ..."
 	fi
 	unset _process1 _process2 Offical_Version Source_Version
 }
