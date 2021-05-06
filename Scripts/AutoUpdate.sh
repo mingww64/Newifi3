@@ -3,32 +3,35 @@
 # AutoBuild Module by Hyy2001
 # AutoUpdate for Openwrt
 
-Version=V5.7
+Version=V5.7.1
 
 Shell_Helper() {
 cat <<EOF
 
-使用方法:	$0 [<更新参数><更新附加参数>]
-		$0 [<设置参数>...] [-c] [-boot] <额外参数>
-		$0 [<其他>...] [-l] [-d] [-help]
+使用方法:	$0 [<更新参数/复合参数] [-n] [-f] [-u] [-p] [-np] [-fp]
+		$0 [<设置参数>...] [-c] [-b] <额外参数>
+		$0 [<其他>...] [-x] [-xp] [-l] [-lp] [-d] [-h]
 
 更新参数:
 	-n		更新固件 [不保留配置]
+	-np		更新固件 [不保留配置] (镜像加速)
 	-f		强制更新固件,即跳过版本号验证,自动下载以及安装必要软件包 [保留配置]
 	-u		适用于定时更新 LUCI 的参数 [保留配置]
-	
-更新附加参数:
-	-p		优先使用 [FastGit] 镜像加速
 
 设置参数:
-	-c		[额外参数:<Github 地址>] 更换 Github 检查更新以及固件下载地址
-	-b | -boot	[额外参数:<引导方式 UEFI/Legacy>] 指定 x86 设备下载使用 UEFI/Legacy 引导的固件 [危险]
+	-c		[额外参数:<Github 地址>] 更换 Github 地址
+	-b		[额外参数:<引导方式 UEFI/Legacy>] 指定 x86 设备下载使用 UEFI/Legacy 引导的固件 (危险)
 
 其他:
-	-l | -list	列出设备信息
-	-d | -del	清除固件下载缓存
-	-h | -help	打印帮助信息
+	-x		更新 AutoUpdate.sh 脚本
+	-xp		更新 AutoUpdate.sh 脚本 (镜像加速)
+	-l		列出系统信息
+	-d		清理固件下载缓存
+	-h		打印帮助信息
 	
+复合/单参数:
+	-p		使用 [FastGit] 镜像加速
+
 EOF
 exit 0
 }
@@ -36,20 +39,22 @@ exit 0
 List_Info() {
 cat <<EOF
 
+AutoUpdate 版本:	${Version}
 /overlay 可用:		${Overlay_Available}
 /tmp 可用:		${TMP_Available}M
-固件下载位置:		/tmp/Downloads
+固件下载位置:		${Download_Path}
 当前设备:		${CURRENT_Device}
 默认设备:		${DEFAULT_Device}
 当前固件版本:		${CURRENT_Version}
 固件名称:		AutoBuild-${CURRENT_Device}-${CURRENT_Version}${Firmware_SFX}
-Github 地址:		${Github}
-解析 API 地址:		${Github_Tags}
-固件下载地址:		${Github_Download}
-作者/仓库:		${Author}"
+Github:			${Github}
+Github Raw:		${Github_Raw}
+解析 API:		${Github_Tags}
+固件下载地址:		${Github_Release}
+作者/仓库:		${Author}
 固件格式:		${Firmware_SFX}
 EOF
-	[[ ${DEFAULT_Device} == "x86_64" ]] && {
+	[[ "${DEFAULT_Device}" == x86_64 ]] && {
 		echo "EFI 引导:		${EFI_Mode}"
 		echo "固件压缩:		${Compressed_Firmware}"
 	}
@@ -59,7 +64,7 @@ EOF
 Install_Pkg() {
 	PKG_NAME=$1
 	if [[ ! "$(cat /tmp/Package_list)" =~ "${PKG_NAME}" ]];then
-		[[ "${Force_Update}" == "1" ]] || [[ "${AutoUpdate_Mode}" == "1" ]] && {
+		[[ "${Force_Update}" == 1 ]] || [[ "${AutoUpdate_Mode}" == 1 ]] && {
 			Choose=Y
 		} || {
 			TIME && read -p "未安装[${PKG_NAME}],是否执行安装?[Y/n]:" Choose
@@ -92,18 +97,22 @@ TIME() {
 }
 Input_Option=$1
 Input_Other=$2
+Download_Path="/tmp/Downloads"
 opkg list | awk '{print $1}' > /tmp/Package_list
 CURRENT_Version="$(awk 'NR==1' /etc/openwrt_info)"
 Github="$(awk 'NR==2' /etc/openwrt_info)"
-Github_Download="${Github}/releases/download/AutoUpdate"
+Github_Release="${Github}/releases/download/AutoUpdate"
 Author="${Github##*com/}"
+CLOUD_Script="Hyy2001X/AutoBuild-Actions/master/Scripts/AutoUpdate.sh"
 Github_Tags="https://api.github.com/repos/${Author}/releases/latest"
+Github_Raw="https://raw.githubusercontent.com"
 DEFAULT_Device="$(awk 'NR==3' /etc/openwrt_info)"
 Firmware_Type="$(awk 'NR==4' /etc/openwrt_info)"
-_PROXY_URL="https://download.fastgit.org"
+_PROXY_Release="https://download.fastgit.org"
 TMP_Available="$(df -m | grep "/tmp" | awk '{print $4}' | awk 'NR==1' | awk -F. '{print $1}')"
 Overlay_Available="$(df -h | grep ":/overlay" | awk '{print $4}' | awk 'NR==1')"
 Retry_Times=4
+[ ! -d "${Download_Path}" ] && mkdir -p ${Download_Path}
 case ${DEFAULT_Device} in
 x86_64)
 	[[ -z "${Firmware_Type}" ]] && Firmware_Type=img
@@ -128,14 +137,14 @@ x86_64)
 	Firmware_SFX="${BOOT_Type}.${Firmware_Type}"
 	Detail_SFX="${BOOT_Type}.detail"
 	CURRENT_Device=x86_64
-	Space_Req=480
+	Space_Min=480
 ;;
 *)
 	CURRENT_Device="$(jsonfilter -e '@.model.id' < /etc/board.json | tr ',' '_')"
 	Firmware_SFX=".${Firmware_Type}"
 	[[ -z ${Firmware_SFX} ]] && Firmware_SFX=".bin"
 	Detail_SFX=.detail
-	Space_Req=0
+	Space_Min=0
 esac
 cd /etc
 clear && echo "Openwrt-AutoUpdate Script ${Version}"
@@ -143,12 +152,15 @@ if [[ -z "${Input_Option}" ]];then
 	Upgrade_Options="-q"
 	TIME && echo "执行: 保留配置更新固件"
 else
+	[[ "${Input_Option}" =~ p ]] && {
+		PROXY_Release="${_PROXY_Release}"
+		Github_Raw="https://raw.fastgit.org"
+		PROXY_ECHO="[FastGit] "
+	} || {
+		PROXY_ECHO=""
+	}
 	case ${Input_Option} in
-	-n | -f | -u | -np | -pn | -fp | -pf | -up | -pu | -p)
-		[[ "${Input_Option}" =~ p ]] && {
-			PROXY_URL="${_PROXY_URL}"
-			PROXY_ECHO="[FastGit] "
-		} || PROXY_ECHO=""
+	-n | -f | -u | -p | -np | -pn | -fp | -pf | -up | -pu)
 		case ${Input_Option} in
 		-n | -np | -pn)
 			TIME && echo "${PROXY_ECHO}执行: 更新固件(不保留配置)"
@@ -179,18 +191,18 @@ else
 			Shell_Helper
 		fi
 	;;
-	-l | -list)
+	-l | -lp | -pl)
 		List_Info
 	;;
-	-d | -del)
-		rm -f /tmp/Downloads/* /tmp/Github_Tags
+	-d)
+		rm -f ${Download_Path}/*
 		TIME && echo "固件下载缓存清理完成!"
 		exit 0
 	;;
-	-h | -help)
+	-h)
 		Shell_Helper
 	;;
-	-b | -boot)
+	-b)
 		[[ -z "${Input_Other}" ]] && Shell_Helper
 		case "${Input_Other}" in
 		UEFI | Legacy)
@@ -206,6 +218,23 @@ else
 		;;
 		esac
 	;;
+	-x | -xp | -px)
+		CLOUD_Script=${Github_Raw}/Hyy2001X/AutoBuild-Actions/master/Scripts/AutoUpdate.sh
+		TIME && echo "${PROXY_ECHO}开始更新 AutoUpdate 脚本,请耐心等待..."
+		wget -q --tries 3 --timeout 5 ${CLOUD_Script} -O ${Download_Path}/AutoUpdate.sh
+		if [[ $? == 0 ]];then
+			rm /bin/AutoUpdate.sh
+			mv -f ${Download_Path}/AutoUpdate.sh /bin
+			chmod +x /bin/AutoUpdate.sh
+			NEW_Version=$(egrep -o "V[0-9]+.[0-9].+" /bin/AutoUpdate.sh | awk 'NR==1')
+			TIME && echo "AutoUpdate [${Version}] > [${NEW_Version}]"
+			TIME && echo "AutoUpdate 脚本更新成功!"
+			exit 0
+		else
+			TIME && echo "AutoUpdate 脚本更新失败,请检查网络后重试!"
+			exit 1
+		fi	
+	;;
 	*)
 		echo -e "\nERROR INPUT: [$*]"
 		Shell_Helper
@@ -216,14 +245,14 @@ if [[ "$(cat /tmp/Package_list)" =~ "curl" ]];then
 	Google_Check=$(curl -I -s --connect-timeout 3 google.com -w %{http_code} | tail -n1)
 	[[ ! "$Google_Check" == 301 ]] && {
 		TIME && echo "Google 连接失败,尝试使用 [FastGit] 镜像加速!"
-		PROXY_URL="${_PROXY_URL}"
+		PROXY_Release="${_PROXY_Release}"
 	}
 else
 	TIME && echo "无法确定网络环境,默认使用 [FastGit] 镜像加速!"
-	PROXY_URL="${_PROXY_URL}"
+	PROXY_Release="${_PROXY_Release}"
 fi
-[[ "${TMP_Available}" -lt "${Space_Req}" ]] && {
-	TIME && echo "/tmp 空间不足: [${Space_Req}M],无法执行更新!"
+[[ "${TMP_Available}" -lt "${Space_Min}" ]] && {
+	TIME && echo "/tmp 空间不足: [${Space_Min}M],无法执行更新!"
 	exit 1
 }
 Install_Pkg wget
@@ -241,13 +270,13 @@ if [[ -z "${CURRENT_Device}" ]];then
 	}
 fi
 TIME && echo "正在检查版本更新..."
-wget -q ${Github_Tags} -O - > /tmp/Github_Tags
+wget -q ${Github_Tags} -O - > ${Download_Path}/Github_Tags
 [[ ! $? == 0 ]] && {
 	TIME && echo "检查更新失败,请稍后重试!"
 	exit 1
 }
 TIME && echo "正在获取云端固件版本..."
-CLOUD_Firmware=$(cat /tmp/Github_Tags | egrep -o "AutoBuild-${CURRENT_Device}-R[0-9].+-[0-9]+${Firmware_SFX}" | awk 'END {print}')
+CLOUD_Firmware=$(cat ${Download_Path}/Github_Tags | egrep -o "AutoBuild-${CURRENT_Device}-R[0-9].+-[0-9]+${Firmware_SFX}" | awk 'END {print}')
 CLOUD_Version=$(echo ${CLOUD_Firmware} | egrep -o "R[0-9].+-[0-9]+")
 [[ -z "${CLOUD_Version}" ]] && {
 	TIME && echo "云端固件版本获取失败!"
@@ -256,8 +285,8 @@ CLOUD_Version=$(echo ${CLOUD_Firmware} | egrep -o "R[0-9].+-[0-9]+")
 Firmware_Name="$(echo ${CLOUD_Firmware} | egrep -o "AutoBuild-${CURRENT_Device}-R[0-9].+-[0-9]+")"
 Firmware="${CLOUD_Firmware}"
 Firmware_Detail="${Firmware_Name}${Detail_SFX}"
-let X=$(grep -n "${Firmware}" /tmp/Github_Tags | tail -1 | cut -d : -f 1)-4
-let CLOUD_Firmware_Size=$(sed -n "${X}p" /tmp/Github_Tags | egrep -o "[0-9]+" | awk '{print ($1)/1048576}' | awk -F. '{print $1}')+1
+let X=$(grep -n "${Firmware}" ${Download_Path}/Github_Tags | tail -1 | cut -d : -f 1)-4
+let CLOUD_Firmware_Size=$(sed -n "${X}p" ${Download_Path}/Github_Tags | egrep -o "[0-9]+" | awk '{print ($1)/1048576}' | awk -F. '{print $1}')+1
 echo -e "\n固件作者: ${Author%/*}"
 echo "设备名称: ${CURRENT_Device}"
 echo "固件格式: ${Firmware_SFX}"
@@ -282,27 +311,27 @@ if [[ ! "${Force_Update}" == 1 ]];then
 		}
 	fi
 fi
-[[ -n "${PROXY_URL}" ]] && Github_Download=${PROXY_URL}/${Author}/releases/download/AutoUpdate
+[[ -n "${PROXY_Release}" ]] && Github_Release=${PROXY_Release}/${Author}/releases/download/AutoUpdate
 echo -e "\n云端固件名称: ${Firmware}"
-echo "固件下载地址: ${Github_Download}"
-echo "固件保存位置: /tmp/Downloads"
-[ ! -d "/tmp/Downloads" ] && mkdir -p /tmp/Downloads
-rm -f /tmp/Downloads/*
+echo "固件下载地址: ${Github_Release}"
+echo "固件保存位置: ${Download_Path}"
+[ ! -d "${Download_Path}" ] && mkdir -p ${Download_Path}
+rm -f ${Download_Path}/*
 TIME && echo "正在下载固件,请耐心等待..."
-cd /tmp/Downloads
+cd ${Download_Path}
 while [ "${Retry_Times}" -ge 0 ];
 do
 	if [[ "${Retry_Times}" == 3 ]];then
-		[[ -z "${PROXY_URL}" ]] && {
+		[[ -z "${PROXY_Release}" ]] && {
 			TIME && echo "正在尝试使用 [FastGit] 镜像加速下载..."
-			Github_Download=${_PROXY_URL}/${Author}/releases/download/AutoUpdate
+			Github_Release=${_PROXY_Release}/${Author}/releases/download/AutoUpdate
 		}
 	fi
 	if [[ "${Retry_Times}" == 0 ]];then
 		TIME && echo "固件下载失败,请检查网络后重试!"
 		exit 1
 	else
-		wget -q --tries 1 --timeout 5 "${Github_Download}/${Firmware}" -O ${Firmware}
+		wget -q --tries 1 --timeout 5 "${Github_Release}/${Firmware}" -O ${Firmware}
 		[[ $? == 0 ]] && break
 	fi
 	Retry_Times=$((${Retry_Times} - 1))
@@ -311,7 +340,7 @@ do
 done
 TIME && echo "固件下载成功!"
 TIME && echo "正在获取云端固件MD5,请耐心等待..."
-wget -q ${Github_Download}/${Firmware_Detail} -O ${Firmware_Detail}
+wget -q ${Github_Release}/${Firmware_Detail} -O ${Firmware_Detail}
 [[ ! $? == 0 ]] && {
 	TIME && echo "MD5 获取失败,请检查网络后重试!"
 	exit 1
