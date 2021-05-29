@@ -1,0 +1,4 @@
+/opt/bin/onmp start
+/opt/bin/aria2c -D --conf-path /opt/aria2/aria2.conf
+ln -s /opt/etc/openclash /etc/openclash
+exit 0
