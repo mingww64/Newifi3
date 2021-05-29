@@ -188,8 +188,8 @@ Firmware-Diy_Base() {
 	;;
 	*)
 		Replace_File CustomFiles/Depends/banner package/base-files/files/etc
-		sed -i "s?By?By ${Author}?g" package/base-files/files/etc/banner
-		sed -i "s?Openwrt?Openwrt ${Openwrt_Version} / AutoUpdate ${AutoUpdate_Version}?g" package/base-files/files/etc/banner
+		sed -i "s?By?Author. ${Author}?g" package/base-files/files/etc/banner
+		sed -i "s?Openwrt?sys_ver. ${Openwrt_Version} / Addons_ver. ${AutoUpdate_Version}?g" package/base-files/files/etc/banner
 	;;
 	esac
 	[[ "${INCLUDE_Obsolete_PKG_Compatible}" == true ]] && {
