@@ -36,7 +36,7 @@ env:
   UPLOAD_FIRMWARE: false
   UPLOAD_BIN_DIR: false
   REMOVE_USELESS_FILES: true
-  REMOVE_OLD_RELEASE: false
+  REMOVE_OLD_RELEASE: true
   REMOVE_WORKFLOW_RUNS: true
 
 jobs:
