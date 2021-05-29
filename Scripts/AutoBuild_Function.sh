@@ -75,7 +75,7 @@ GET_TARGET_INFO() {
 	echo "TARGET_SUBTARGET=${TARGET_SUBTARGET}" >> ${Home}/TARGET_INFO
 	echo "Home=${Home}" >> ${Home}/TARGET_INFO
 	echo "Current_Branch=${Current_Branch}" >> ${Home}/TARGET_INFO
-	
+	info=${Home}/TARGET_INFO
 	echo "Github=${User_Repo}" > ${In_Firmware_Info}
 	echo "CURRENT_Version=${Openwrt_Version}" >> ${In_Firmware_Info}
 	echo "DEFAULT_Device=${TARGET_PROFILE}" >> ${In_Firmware_Info}
@@ -260,7 +260,7 @@ PS_Firmware() {
 			_MD5=$(md5sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${Legacy_Firmware}.detail
-			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${Legacy_Firmware}.detail
+			echo -e "${info}\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${Legacy_Firmware}.detail
 			mv -f ${Legacy_Firmware} ${Home}/bin/Firmware/${Openwrt_Version}_${Leagacy_Firmware}			
 			TIME "Legacy Firmware is detected !"
 		else
@@ -270,7 +270,7 @@ PS_Firmware() {
 			_MD5=$(md5sum ${EFI_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${EFI_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${EFI_Firmware}.detail
-			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${EFI_Firmware}.detail
+			echo -e "${info}\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${EFI_Firmware}.detail
  			mv -f ${EFI_Firmware} ${home}/bin/Firmware/${Openwrt_Version}_${EFI_Firmware}
 			TIME "UEFI Firmware is detected !"
 		else
@@ -284,10 +284,10 @@ PS_Firmware() {
 		echo "[Preload Info] Default_Firmware: ${Default_Firmware}"
 		
 		if [ -f "${Firmware_Path}/${Default_Firmware}" ];then
-			mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${Openwrt_Version}_${Default_Firmware}
+			mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/%{Openwrt_Author}-${Openwrt_Version}_${Default_Firmware}
 			_MD5=$(md5sum bin/Firmware/${Openwrt_Version}_${Default_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum bin/Firmware/${Openwrt_Version}_${Default_Firmware} | cut -d ' ' -f1)
-			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${Openwrt_Version}_${Default_Firmware}.Detail
+			echo -e "${info}\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${Openwrt_Version}_${Default_Firmware}.Detail
 			TIME "Firmware is detected !"
 		else
 			TIME "[ERROR] Firmware is not detected !"
