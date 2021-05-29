@@ -252,16 +252,16 @@ PS_Firmware() {
 		cd ${Firmware_Path}
 		Legacy_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${_Legacy_Firmware}.${Firmware_Type}"
 		EFI_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${_EFI_Firmware}.${Firmware_Type}"
-		AutoBuild_Firmware="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}"
+		
 		echo "[Preload Info] Legacy_Firmware: ${Legacy_Firmware}"
 		echo "[Preload Info] UEFI_Firmware: ${EFI_Firmware}"
-		echo "[Preload Info] AutoBuild_Firmware: ${AutoBuild_Firmware}"
+		
 		if [ -f "${Legacy_Firmware}" ];then
 			_MD5=$(md5sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${Legacy_Firmware} | cut -d ' ' -f1)
-			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}.detail
-			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}-Legacy.detail
-			mv -f ${Legacy_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}-Legacy.${Firmware_Type}
+			touch ${Home}/bin/Firmware/${Legacy_Firmware}.detail
+			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${Legacy_Firmware}.detail
+			mv -f ${Legacy_Firmware} ${Home}/bin/Firmware/${Openwrt_Version}_${Leagacy_Firmware}			
 			TIME "Legacy Firmware is detected !"
 		else
 			TIME "[ERROR] Legacy Firmware is not detected !"
@@ -269,9 +269,9 @@ PS_Firmware() {
 		if [ -f "${EFI_Firmware}" ];then
 			_MD5=$(md5sum ${EFI_Firmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum ${EFI_Firmware} | cut -d ' ' -f1)
-			touch ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.detail
-			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.detail
-			cp ${EFI_Firmware} ${Home}/bin/Firmware/${AutoBuild_Firmware}-UEFI.${Firmware_Type}
+			touch ${Home}/bin/Firmware/${EFI_Firmware}.detail
+			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${EFI_Firmware}.detail
+ 			mv -f ${EFI_Firmware} ${home}/bin/Firmware/${Openwrt_Version}_${EFI_Firmware}
 			TIME "UEFI Firmware is detected !"
 		else
 			TIME "[ERROR] UEFI Firmware is not detected !"
@@ -280,15 +280,14 @@ PS_Firmware() {
 	*)
 		cd ${Home}
 		Default_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_Type}"
-		AutoBuild_Firmware="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}.${Firmware_Type}"
-		AutoBuild_Detail="AutoBuild-${TARGET_PROFILE}-${Openwrt_Version}.detail"
+		
 		echo "[Preload Info] Default_Firmware: ${Default_Firmware}"
-		echo "[Preload Info] AutoBuild_Firmware: ${AutoBuild_Firmware}"
+		
 		if [ -f "${Firmware_Path}/${Default_Firmware}" ];then
-			mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${AutoBuild_Firmware}
-			_MD5=$(md5sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
-			_SHA256=$(sha256sum bin/Firmware/${AutoBuild_Firmware} | cut -d ' ' -f1)
-			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${AutoBuild_Detail}
+			mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${Openwrt_Version}_${Default_Firmware}
+			_MD5=$(md5sum bin/Firmware/${Openwrt_Version}_${Default_Firmware} | cut -d ' ' -f1)
+			_SHA256=$(sha256sum bin/Firmware/${Openwrt_Version}_${Default_Firmware} | cut -d ' ' -f1)
+			echo -e "\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${Openwrt_Version}_${Default_Firmware}.Detail
 			TIME "Firmware is detected !"
 		else
 			TIME "[ERROR] Firmware is not detected !"
