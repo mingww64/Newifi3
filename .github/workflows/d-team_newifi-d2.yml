@@ -33,6 +33,7 @@ env:
   DIY_SCRIPT: Scripts/AutoBuild_DiyScript.sh
   FUNCTION_SCRIPT: Scripts/AutoBuild_Function.sh
   UPLOAD_RELEASE: true
+  UPLOAD_beta_RELEASE: true
   UPLOAD_FIRMWARE: false
   UPLOAD_BIN_DIR: false
   REMOVE_USELESS_FILES: true
@@ -139,7 +140,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: AutoUpdate
+        tag_name: history
         body_path: update_log.txt
         files: openwrt/bin/Firmware/*
         
@@ -147,10 +148,21 @@ jobs:
       uses: dev-drprasad/delete-older-releases@v0.1.0
       if: env.REMOVE_OLD_RELEASE == 'true' && !cancelled()
       with:
-        keep_latest: 3
+        keep_latest: 0
+        delete_tag_pattern: beta
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Upload Firmware to Release
+      uses: softprops/action-gh-release@v1
+      if: env.UPLOAD_beta_RELEASE == 'true' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: beta
+        body_path: update_log.txt
+        files: openwrt/bin/Firmware/*
         
     - name: Remove workflow runs
       uses: GitRML/delete-workflow-runs@main
