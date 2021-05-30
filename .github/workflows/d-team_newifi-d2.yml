@@ -145,12 +145,12 @@ jobs:
         files: openwrt/bin/Firmware/*
         
     - name: Remove old beta Release
-      uses: dev-drprasad/delete-older-releases@v0.1.0
+      uses: dev-drprasad/delete-older-releases@v0.2.0
       if: env.REMOVE_OLD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 0
         delete_tag_pattern: beta
-        delete_tags: true
+        delete_tags: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
