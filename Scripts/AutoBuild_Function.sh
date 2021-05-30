@@ -105,7 +105,7 @@ Firmware-Diy_Base() {
 		Replace_File Scripts/AutoBuild_Tools.sh package/base-files/files/bin
 	}
 	[[ "${INCLUDE_AutoUpdate}" == true ]] && {
-		AddPackage git lean luci-app-autoupdate https://github.com/Hyy2001X main
+		AddPackage git lean luci-app-autoupdate https://github.com/wmyfelix patch-1
 		Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
 	}
 	[[ "${INCLUDE_Theme_Argon}" == true ]] && {
