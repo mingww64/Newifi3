@@ -75,7 +75,7 @@ GET_TARGET_INFO() {
 	echo "TARGET_SUBTARGET=${TARGET_SUBTARGET}" >> ${Home}/TARGET_INFO
 	echo "Home=${Home}" >> ${Home}/TARGET_INFO
 	echo "Current_Branch=${Current_Branch}" >> ${Home}/TARGET_INFO
-	info="${Home}/TARGET_INFO"
+	
 	echo "Github=${User_Repo}" > ${In_Firmware_Info}
 	echo "CURRENT_Version=${Openwrt_Version}" >> ${In_Firmware_Info}
 	echo "DEFAULT_Device=${TARGET_PROFILE}" >> ${In_Firmware_Info}
@@ -295,8 +295,8 @@ PS_Firmware() {
 			mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${renamefirmware}
 			_MD5=$(md5sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
-			echo -e "${info}\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.Detail
-			echo -e "MD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.detail
+			echo -e "$(GET_TARGET_INFO)\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.targetDetail
+			echo -e "MD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.Detail
 			TIME "Firmware is detected !"
 		else
 			TIME "[ERROR] Firmware is not detected !"
