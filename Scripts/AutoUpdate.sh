@@ -154,7 +154,7 @@ x86_64)
 	export CURRENT_Device="$(jsonfilter -e '@.model.id' < /etc/board.json | tr ',' '_')"
 	export Firmware_SFX=".${Firmware_Type}"
 	[[ -z ${Firmware_SFX} ]] && export Firmware_SFX=".bin"
-	export Detail_SFX=.detail
+	export Detail_SFX=.Detail
 	export Space_Min=0
 esac
 cd /etc
