@@ -297,7 +297,7 @@ export CLOUD_Version=$(echo ${CLOUD_Firmware} | egrep -o "R[0-9].+-[0-9]+")
 }
 export Firmware_Name="$(echo ${CLOUD_Firmware} | egrep -o "${CURRENT_Device}-R[0-9].+-[0-9]+")"
 export Firmware="${CLOUD_Firmware}"
-export Firmware_Detail="${Firmware_Name}${Detail_SFX}"
+export Firmware_Detail="${Firmware_Name}-squashfs-sysupgrade${Detail_SFX}"
 let X="$(grep -n "${Firmware}" ${Download_Path}/Github_Tags | tail -1 | cut -d : -f 1)-4"
 let CLOUD_Firmware_Size="$(sed -n "${X}p" ${Download_Path}/Github_Tags | egrep -o "[0-9]+" | awk '{print ($1)/1048576}' | awk -F. '{print $1}')+1"
 echo -e "\n固件作者: ${Author%/*}"
@@ -324,7 +324,7 @@ if [[ ! "${Force_Update}" == 1 ]];then
 		}
 	fi
 fi
-[[ -n "${PROXY_Release}" ]] && export Github_Release="${PROXY_Release}/${Author}/releases/download/AutoUpdate"
+[[ -n "${PROXY_Release}" ]] && export Github_Release="${PROXY_Release}/${Author}/releases/download/${tag}"
 echo -e "\n云端固件名称: ${Firmware}"
 echo "固件下载地址: ${Github_Release}"
 echo "固件保存位置: ${Download_Path}"
@@ -337,7 +337,7 @@ do
 	if [[ "${Retry_Times}" == 3 ]];then
 		[[ -z "${PROXY_Release}" ]] && {
 			TIME "正在尝试使用 [FastGit] 镜像加速下载..."
-			export Github_Release="${_PROXY_Release}/${Author}/releases/download/AutoUpdate"
+			export Github_Release="${_PROXY_Release}/${Author}/releases/download/${tag}"
 		}
 	fi
 	if [[ "${Retry_Times}" == 0 ]];then
