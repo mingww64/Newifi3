@@ -71,4 +71,4 @@ alias Tools='bash /bin/AutoBuild*.sh'
 alias tools='bash /bin/AutoBuild*.sh'
 alias coremarkd='bash /etc/coremark.sh'
 alias shutdown='sync && poweroff'
-. /opt/profile
+. /opt/etc/profile
