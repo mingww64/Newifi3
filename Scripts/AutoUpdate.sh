@@ -353,6 +353,7 @@ do
 done
 TIME y "固件下载成功!"
 TIME "正在获取云端 MD5,请耐心等待..."
+TIME "${Firmware_Detail}"
 wget -q --tries 3 --timeout 5 ${Github_Release}/${Firmware_Detail} -O ${Firmware_Detail}
 [[ ! $? == 0 ]] && {
 	TIME r "云端 MD5 获取失败,请检查网络后重试!"
