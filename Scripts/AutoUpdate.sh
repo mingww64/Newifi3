@@ -107,13 +107,15 @@ TIME() {
 	TIME r "未检测到 /etc/openwrt/info,无法运行更新程序!"
 	exit 1
 }
-
+export tag=beta
+export user=wmyfelix
+export repo=NEWIFI3-OpenWrt
 export Input_Option=$1
 export Input_Other=$2
 export Download_Path="/tmp/Downloads"
-export Github_Release="${Github}/releases/download/AutoUpdate"
+export Github_Release="${Github}/releases/download/${tag}"
 export Author="${Github##*com/}"
-export CLOUD_Script="Hyy2001X/AutoBuild-Actions/master/Scripts/AutoUpdate.sh"
+export CLOUD_Script="${user}/${repo}/master/Scripts/AutoUpdate.sh"
 export Github_Tags="https://api.github.com/repos/${Author}/releases/latest"
 export Github_Raw="https://raw.githubusercontent.com"
 export _PROXY_Release="https://download.fastgit.org"
@@ -228,7 +230,7 @@ else
 		esac
 	;;
 	-x | -xp | -px)
-		export CLOUD_Script=${Github_Raw}/Hyy2001X/AutoBuild-Actions/master/Scripts/AutoUpdate.sh
+		export CLOUD_Script=${Github_Raw}/${user}/${repo}/master/Scripts/AutoUpdate.sh
 		TIME "${PROXY_ECHO}开始更新 AutoUpdate 脚本,请耐心等待..."
 		wget -q --tries 3 --timeout 5 ${CLOUD_Script} -O ${Download_Path}/AutoUpdate.sh
 		if [[ $? == 0 ]];then
@@ -287,13 +289,13 @@ wget -q --timeout 5 ${Github_Tags} -O - > ${Download_Path}/Github_Tags
 	exit 1
 }
 TIME "正在获取云端固件信息..."
-export CLOUD_Firmware=$(egrep -o "AutoBuild-${CURRENT_Device}-R[0-9].+-[0-9]+${Firmware_SFX}" ${Download_Path}/Github_Tags | awk 'END {print}')
+export CLOUD_Firmware=$(egrep -o "${CURRENT_Device}-R[0-9].+-[0-9]+-squashfs-sysupgrade${Firmware_SFX}" ${Download_Path}/Github_Tags | awk 'END {print}')#x86 not support due to efi/legacy
 export CLOUD_Version=$(echo ${CLOUD_Firmware} | egrep -o "R[0-9].+-[0-9]+")
 [[ -z "${CLOUD_Version}" ]] && {
 	TIME r "云端固件信息获取失败!"
 	exit 1
 }
-export Firmware_Name="$(echo ${CLOUD_Firmware} | egrep -o "AutoBuild-${CURRENT_Device}-R[0-9].+-[0-9]+")"
+export Firmware_Name="$(echo ${CLOUD_Firmware} | egrep -o "${CURRENT_Device}-R[0-9].+-[0-9]+")"
 export Firmware="${CLOUD_Firmware}"
 export Firmware_Detail="${Firmware_Name}${Detail_SFX}"
 let X="$(grep -n "${Firmware}" ${Download_Path}/Github_Tags | tail -1 | cut -d : -f 1)-4"
@@ -326,7 +328,8 @@ fi
 echo -e "\n云端固件名称: ${Firmware}"
 echo "固件下载地址: ${Github_Release}"
 echo "固件保存位置: ${Download_Path}"
-rm -f ${Download_Path}/AutoBuild-*
+rm -f ${Download_Path}/*.bin
+rm -f ${Download_Path}/*.gz
 TIME "正在下载固件,请耐心等待..."
 cd ${Download_Path}
 while [ "${Retry_Times}" -ge 0 ];
