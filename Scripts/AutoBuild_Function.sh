@@ -161,6 +161,7 @@ Firmware-Diy_Base() {
 	Replace_File CustomFiles/Depends/profile package/base-files/files/etc
 	Replace_File CustomFiles/Depends/rc.local package/base-files/files/etc
 	sed -i '/profile/d' package/base-files/files/lib/upgrade/keep.d/base-files-essential
+	sed -i '/rc.local/d' package/base-files/files/lib/upgrade/keep.d/base-files-essential
 	case ${Openwrt_Author} in
 	coolsnowwolf)
 		Replace_File CustomFiles/Depends/coremark_lede.sh package/lean/coremark coremark.sh
