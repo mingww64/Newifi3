@@ -297,7 +297,7 @@ export CLOUD_Version=$(echo ${CLOUD_Firmware} | egrep -o "R[0-9].+-[0-9]+")
 }
 export Firmware_Name="$(echo ${CLOUD_Firmware} | egrep -o "${CURRENT_Device}-R[0-9].+-[0-9]+")"
 export Firmware="${CLOUD_Firmware}"
-export Firmware_Detail="${Firmware_Name}-squashfs-sysupgrade${Detail_SFX}"
+export Firmware_Detail="${Firmware_Name}-squashfs-sysupgrade${Firmware_SFX}${Detail_SFX}"
 let X="$(grep -n "${Firmware}" ${Download_Path}/Github_Tags | tail -1 | cut -d : -f 1)-4"
 let CLOUD_Firmware_Size="$(sed -n "${X}p" ${Download_Path}/Github_Tags | egrep -o "[0-9]+" | awk '{print ($1)/1048576}' | awk -F. '{print $1}')+1"
 echo -e "\n固件作者: ${Author%/*}"
