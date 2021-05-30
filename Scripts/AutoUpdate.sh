@@ -146,7 +146,7 @@ x86_64)
 	;;
 	esac
 	export Firmware_SFX="${BOOT_Type}.${Firmware_Type}"
-	export Detail_SFX="${BOOT_Type}.detail"
+	export Detail_SFX="${BOOT_Type}.Detail"
 	export CURRENT_Device=x86_64
 	export Space_Min=480
 ;;
@@ -289,7 +289,7 @@ wget -q --timeout 5 ${Github_Tags} -O - > ${Download_Path}/Github_Tags
 	exit 1
 }
 TIME "正在获取云端固件信息..."
-export CLOUD_Firmware=$(egrep -o "${CURRENT_Device}-R[0-9].+-[0-9]+-squashfs-sysupgrade${Firmware_SFX}" ${Download_Path}/Github_Tags | awk 'END {print}')#x86 not support due to efi/legacy
+export CLOUD_Firmware=$(egrep -o "${CURRENT_Device}-R[0-9].+-[0-9]+-squashfs-sysupgrade${Firmware_SFX}" ${Download_Path}/Github_Tags | awk 'END {print}')
 export CLOUD_Version=$(echo ${CLOUD_Firmware} | egrep -o "R[0-9].+-[0-9]+")
 [[ -z "${CLOUD_Version}" ]] && {
 	TIME r "云端固件信息获取失败!"
