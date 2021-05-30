@@ -252,7 +252,8 @@ PS_Firmware() {
 		cd ${Firmware_Path}
 		Legacy_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${_Legacy_Firmware}.${Firmware_Type}"
 		EFI_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${_EFI_Firmware}.${Firmware_Type}"
-		
+		cplegacy="LEGACY-${TARGET_PROFILE}-${Openwrt_Version}.${Firmware_Type}"
+		cpefi="EFI-${TARGET_PROFILE}-${Openwrt_Version}.${Firmware_Type}"
 		echo "[Preload Info] Legacy_Firmware: ${Legacy_Firmware}"
 		echo "[Preload Info] UEFI_Firmware: ${EFI_Firmware}"
 		
@@ -261,7 +262,10 @@ PS_Firmware() {
 			_SHA256=$(sha256sum ${Legacy_Firmware} | cut -d ' ' -f1)
 			touch ${Home}/bin/Firmware/${Legacy_Firmware}.detail
 			echo -e "${info}\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${Legacy_Firmware}.detail
-			mv -f ${Legacy_Firmware} ${Home}/bin/Firmware/${Openwrt_Version}_${Leagacy_Firmware}			
+			mv -f ${Legacy_Firmware} ${Home}/bin/Firmware/${Openwrt_Version}_${Leagacy_Firmware}
+			cd ${home}/bin/Firmware
+			mv ${Openwrt_Version}_${Legacy_Firmware} ${cpleagacy}
+			mv ${Legacy_Firmware}.detail ${cplegacy}.detail
 			TIME "Legacy Firmware is detected !"
 		else
 			TIME "[ERROR] Legacy Firmware is not detected !"
@@ -272,6 +276,9 @@ PS_Firmware() {
 			touch ${Home}/bin/Firmware/${EFI_Firmware}.detail
 			echo -e "${info}\nMD5:${_MD5}\nSHA256:${_SHA256}" > ${Home}/bin/Firmware/${EFI_Firmware}.detail
  			mv -f ${EFI_Firmware} ${home}/bin/Firmware/${Openwrt_Version}_${EFI_Firmware}
+			cd ${home}/bin/Firmware
+			mv ${Openwrt_Version}_${EFI_Firmware} ${cpefi}
+			mv ${EFI_Firmware}.detail ${cpefi}.detail
 			TIME "UEFI Firmware is detected !"
 		else
 			TIME "[ERROR] UEFI Firmware is not detected !"
@@ -282,12 +289,13 @@ PS_Firmware() {
 		Default_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_Type}"
 		
 		echo "[Preload Info] Default_Firmware: ${Default_Firmware}"
-		
+		renamefirmware="${TARGET_PROFILE}-${Openwrt_Version}-squashfs-sysupgrade.${Firmware_Type}"
 		if [ -f "${Firmware_Path}/${Default_Firmware}" ];then
-			mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${Openwrt_Author}-${Openwrt_Version}_${Default_Firmware}
-			_MD5=$(md5sum bin/Firmware/${Openwrt_Author}-${Openwrt_Version}_${Default_Firmware} | cut -d ' ' -f1)
-			_SHA256=$(sha256sum bin/Firmware/${Openwrt_Author}-${Openwrt_Version}_${Default_Firmware} | cut -d ' ' -f1)
-			echo -e "${info}\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${Openwrt_Version}_${Default_Firmware}.Detail
+			mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${renamefirmware}
+			_MD5=$(md5sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
+			_SHA256=$(sha256sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
+			echo -e "${info}\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.Detail
+			echo -e "MD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.detail
 			TIME "Firmware is detected !"
 		else
 			TIME "[ERROR] Firmware is not detected !"
