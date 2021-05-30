@@ -134,7 +134,7 @@ jobs:
         name: OpenWrt_bin_${{ env.Artifacts_DATE }}
         path: openwrt/bin
 
-    - name: Upload Firmware to Release
+    - name: Upload Firmware to Historial Release
       uses: softprops/action-gh-release@v1
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       env:
@@ -144,7 +144,7 @@ jobs:
         body_path: update_log.txt
         files: openwrt/bin/Firmware/*
         
-    - name: Remove old Release
+    - name: Remove old beta Release
       uses: dev-drprasad/delete-older-releases@v0.1.0
       if: env.REMOVE_OLD_RELEASE == 'true' && !cancelled()
       with:
@@ -154,7 +154,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Upload Firmware to Release
+    - name: Upload Firmware to beta Release
       uses: softprops/action-gh-release@v1
       if: env.UPLOAD_beta_RELEASE == 'true' && !cancelled()
       env:
