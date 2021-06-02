@@ -116,4 +116,5 @@ CONFIG_PACKAGE_xz-utils=y
 
 ## 网络性能
 # CONFIG_PACKAGE_iperf3=y
+# kernel features
 CONFIG_PACKAGE_kmod-fuse=y
