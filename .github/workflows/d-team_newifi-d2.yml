@@ -108,6 +108,7 @@ jobs:
       run: |
         cp Configs/$CONFIG_FILE openwrt/.config
         cd openwrt
+        cat .config
         ./scripts/feeds install -a
         make defconfig
         make download -j$(nproc)
