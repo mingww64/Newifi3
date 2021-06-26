@@ -21,7 +21,7 @@ Diy_Core() {
 }
 
 Firmware-Diy() {
-	Update_Makefile exfat $(PKG_Finder d package exfat)
+	# Update_Makefile exfat $(PKG_Finder d package exfat)
 	AddPackage svn ../feeds/packages/admin netdata https://github.com/openwrt/packages/trunk/admin
 
 	case ${TARGET_PROFILE} in
