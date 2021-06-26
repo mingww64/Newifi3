@@ -15,6 +15,6 @@
 * Take a look at [config](Configs/d-team_newifi-d2) for Packages
 * More and More IDK...
 ### To-do
-- [] Jffs2 file system
+- [ ] Jffs2 file system
 ![interview](https://github.com/wmyfelix/NEWIFI3/blob/master/banner.png?raw=true)
  
