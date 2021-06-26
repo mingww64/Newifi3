@@ -1,16 +1,13 @@
 # NEWIFI3-OpenWrt
-newifi3 | Github Actions
-![interview](https://github.com/wmyfelix/NEWIFI3-OpenWrt/blob/master/banner.png?raw=true)
+### Only Newifi3 is Qualified
 ## Feature
-+ openclash
-+ ADGuardHome with [@Hyy2001X](https://Github.com/Hyy2001X) modifiction
++ Openclash CORE Built-in
 + rc.local editable
 + customizable banner with system stats
-+ Update tools built-in [@Hyy2001X](https://Github.com/Hyy2001X)
++ Update tools Built-in [@Hyy2001X](https://Github.com/Hyy2001X)
 + Argon theme
 + Take a look at [config](Configs/d-team_newifi-d2) for more details
 ### To-do
-- Merge upstream
 - Jffs2 file system
-
+![interview](https://github.com/wmyfelix/NEWIFI3/blob/master/banner.png?raw=true)
  

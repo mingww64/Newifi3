@@ -168,9 +168,14 @@ Firmware-Diy_Base() {
 		AutoUpdate_Version=$(egrep -o "V[0-9]+.[0-9].+" package/base-files/files/bin/AutoUpdate.sh | awk 'NR==1')
 	} || AutoUpdate_Version=OFF
 	Replace_File CustomFiles/Depends/profile package/base-files/files/etc
-	Replace_File CustomFiles/Depends/rc.local package/base-files/files/etc
+	[[ "${INCLUDE_opt_profile}" == true ]] && {
+	echo ". /opt/etc/profile" >> package/base-files/files/etc/profile
+	}
 	sed -i '/profile/d' package/base-files/files/lib/upgrade/keep.d/base-files-essential
+	[[ "${INCLUDE_rc.local}" == true ]] && {
 	sed -i '/rc.local/d' package/base-files/files/lib/upgrade/keep.d/base-files-essential
+	Replace_File CustomFiles/Depends/rc.local package/base-files/files/etc
+	}
 	case ${Openwrt_Author} in
 	coolsnowwolf)
 		Replace_File CustomFiles/Depends/coremark_lede.sh package/lean/coremark coremark.sh
