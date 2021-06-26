@@ -110,12 +110,14 @@ Firmware-Diy_Base() {
 	}
 		[[ "${INCLUDE_clash}" == true ]] && {
 		Clash_Date="$(curl https://api.github.com/repos/vernesong/OpenClash/releases/tags/TUN-Premium | egrep -o "version: [0-9]+.[0-9]+.[0-9]+" | egrep -o [0-9]+.[0-9]+.[0-9]+)"
-		curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-"$CPU_MODEL"-"$CORE_LV"-"$Clash_Date".gz -o /tmp/clash_tun.gz
+		curl -sSL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-"$CPU_MODEL"-"$CORE_LV"-"$Clash_Date".gz -o /tmp/clash_tun.gz
 		gzip -d /tmp/clash_tun.gz
+		mkdir ${GITHUB_WORKSPACE}/CustomFiles/openclash/core
 		mv /tmp/clash_tun ${GITHUB_WORKSPACE}/CustomFiles/openclash/core
-		curl -sL https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb -o ${GITHUB_WORKSPACE}/CustomFiles/openclash/Country.mmdb
+		curl -sSL https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb -o ${GITHUB_WORKSPACE}/CustomFiles/openclash/Country.mmdb
+		mkdir ${GITHUB_WORKSPACE}/CustomFiles/openclash/config
 		Replace_File CustomFiles/openclash package/base-files/files/etc
-		curl -o package/base-files/files/etc/openclash/config/config.yaml https://raw.githubusercontent.com/wmyfelix/ClashConfigsSharing/NPO/universal.yaml
+		curl -sS -o "$home"/package/base-files/files/etc/openclash/config/config.yaml https://raw.githubusercontent.com/wmyfelix/ClashConfigsSharing/NPO/universal.yaml
 	}
 	[[ "${INCLUDE_Theme_Argon}" == true ]] && {
 		case ${Openwrt_Author} in
