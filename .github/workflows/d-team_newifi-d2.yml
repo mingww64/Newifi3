@@ -1,9 +1,7 @@
 #=======================================================
 # Description: Build OpenWrt using GitHub Actions
-# https://github.com/Hyy2001X/AutoBuild-Actions
 # Lisence: MIT
 # Author: P3TERX
-# Modify: Hyy2001X
 #=======================================================
 
 name: AutoBuild-d-team_newifi-d2
