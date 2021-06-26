@@ -1,0 +1,7 @@
+#!/bin/bash
+echo "Bump! I'm your first-boot script."
+clashdir=/etc/openclash
+mv $clashdir/Country.mmdb $clashdir/Country.mmdb.bak
+mv $clashdir/CountryLatest.mmdb $clashdir/Country.mmdb
+# Delete me
+rm $0

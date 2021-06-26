@@ -118,7 +118,7 @@ Firmware-Diy_Base() {
         mv /tmp/clash_tun "$ClashDir"/core
 		curl -sSL -o "$ClashDir"/config/config.yaml https://raw.githubusercontent.com/wmyfelix/ClashConfigsSharing/NPO/universal.yaml
 		curl -sSL  -o "$ClashDir"/CountryLatest.mmdb https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb
-		
+		Replace_File Scripts/firstrun package/base-files/files/etc/init.d
 	}
 	[[ "${INCLUDE_Theme_Argon}" == true ]] && {
 		case ${Openwrt_Author} in
