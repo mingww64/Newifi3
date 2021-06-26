@@ -109,7 +109,7 @@ TIME() {
 }
 export tag=beta
 export user=wmyfelix
-export repo=NEWIFI3-OpenWrt
+export repo=NEWIFI3
 export Input_Option=$1
 export Input_Other=$2
 export Download_Path="/tmp/Downloads"
