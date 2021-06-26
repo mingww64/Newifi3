@@ -10,7 +10,7 @@ Diy_Core() {
 	Default_IP_Address="192.168.1.1"
     INCLUDE_clash=true
 	INCLUDE_opt_profile=true
-	INCLUDE_rc.local=true
+	INCLUDE_rc_local=true
 	INCLUDE_AutoUpdate=true
 	INCLUDE_AutoBuild_Tools=true
 	INCLUDE_DRM_I915=false
