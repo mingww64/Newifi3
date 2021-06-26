@@ -110,7 +110,7 @@ Firmware-Diy_Base() {
 	}
 		[[ "${INCLUDE_clash}" == true ]] && {
 		Clash_Date="$(curl https://api.github.com/repos/vernesong/OpenClash/releases/tags/TUN-Premium | egrep -o "version: [0-9]+.[0-9]+.[0-9]+" | egrep -o [0-9]+.[0-9]+.[0-9]+)"
-		curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-"$CPU_MODEL"-"$CORE_LV"-"$Clash_Date".gz -o /tmp/clash_tun.gz
+		curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-"$CPU_MODEL"-"$CORE_LV"-"$Clash_Date".gz -o /tmp/clash_tun.gz
 		gzip -d /tmp/clash_tun.gz
 		mv /tmp/clash_tun ${GITHUB_WORKSPACE}/CustomFiles/openclash/core
 		curl -sL https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb -o ${GITHUB_WORKSPACE}/CustomFiles/openclash/Country.mmdb
