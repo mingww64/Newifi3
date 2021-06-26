@@ -108,6 +108,14 @@ Firmware-Diy_Base() {
 		AddPackage git lean luci-app-autoupdate https://github.com/wmyfelix patch-1
 		Replace_File Scripts/AutoUpdate.sh package/base-files/files/bin
 	}
+		[[ "${INCLUDE_clash}" == true ]] && {
+		curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-"$CPU_MODEL"-"$CORE_LV".gz -o /tmp/clash_tun.gz
+		gzip -d /tmp/clash_tun.gz
+		mv /tmp/clash_tun ${GITHUB_WORKSPACE}/CustomFiles/openclash/core
+		curl -sL https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb -o ${GITHUB_WORKSPACE}/CustomFiles/openclash/Country.mmdb
+		Replace_File CustomFiles/openclash package/base-files/files/etc
+		curl -o package/base-files/files/etc/openclash/config/config.yaml https://raw.githubusercontent.com/wmyfelix/ClashConfigsSharing/NPO/universal.yaml
+	}
 	[[ "${INCLUDE_Theme_Argon}" == true ]] && {
 		case ${Openwrt_Author} in
 		coolsnowwolf)
@@ -125,7 +133,8 @@ Firmware-Diy_Base() {
 				AddPackage git other luci-theme-argon https://github.com/jerrykuku 18.06
 			;;
 			*)
-				TIME "[ERROR] Unknown Openwrt branch: [${Current_Branch}] !"
+				TIME "[ERROR] Unknown Openwrt branch: [${Current_Branch}] ! Fallback to Latest."
+				AddPackage git other luci-theme-argon https://github.com/jerrykuku
 			;;
 			esac
 		;;

@@ -50,6 +50,7 @@ CONFIG_PACKAGE_luci-app-usb-printer=y
 CONFIG_PACKAGE_autosamba=y
 CONFIG_PACKAGE_luci-app-samba4=y
 # CONFIG_PACKAGE_luci-app-vsftpd is not set
+CONFIG_PACKAGE_openssh-sftp-server=y
 
 # 主题包以及相关设置
 CONFIG_PACKAGE_luci-theme-argon=y
@@ -67,14 +68,14 @@ CONFIG_PACKAGE_ddns-scripts_no-ip_com=y
 CONFIG_PACKAGE_luci-app-aria2=y
 # CONFIG_PACKAGE_curl is not set
 # CONFIG_PACKAGE_wget is not set
-CONFIG_PACKAGE_luci-app-rclone_INCLUDE_fuse-utils is not set
-CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-ng is not set
-CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-webui is not set
+# CONFIG_PACKAGE_luci-app-rclone_INCLUDE_fuse-utils is not set
+# CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-ng is not set
+# CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-webui is not set
 
 # LUCI Appliciations
 CONFIG_PACKAGE_luci-app-accesscontrol=y
-# CONFIG_PACKAGE_luci-app-adbyby-plus=y
-CONFIG_PACKAGE_luci-app-adguardhome=y
+# CONFIG_PACKAGE_luci-app-adbyby-plus is not set
+# CONFIG_PACKAGE_luci-app-adguardhome is not set
 CONFIG_PACKAGE_luci-app-autoupdate=y
 # CONFIG_PACKAGE_luci-app-bearDropper is not set
 # CONFIG_PACKAGE_luci-app-dnsfilter is not set
@@ -116,4 +117,4 @@ CONFIG_PACKAGE_xz-utils=y
 ## 网络性能
 # CONFIG_PACKAGE_iperf3 is not set
 # kernel features
-CONFIG_PACKAGE_kmod-fuse=y
+# CONFIG_PACKAGE_kmod-fuse=y

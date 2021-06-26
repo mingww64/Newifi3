@@ -8,7 +8,7 @@ Diy_Core() {
 	Default_Device=d-team_newifi-d2
 	Short_Firmware_Date=true
 	Default_IP_Address="192.168.1.1"
-
+    INCLUDE_clash=ture
 	INCLUDE_AutoUpdate=true
 	INCLUDE_AutoBuild_Tools=true
 	INCLUDE_DRM_I915=false
