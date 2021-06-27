@@ -13,6 +13,7 @@ Diy_Core() {
 	CORE_LV=hardfloat
 	INCLUDE_opt_profile=true
 	INCLUDE_rc_local=true
+	INCLUDE_firstrun=false
 	INCLUDE_AutoUpdate=true
 	INCLUDE_AutoBuild_Tools=true
 	INCLUDE_DRM_I915=false

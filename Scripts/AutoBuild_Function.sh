@@ -117,7 +117,9 @@ Firmware-Diy_Base() {
 		gzip -d /tmp/clash_tun.gz
         mv /tmp/clash_tun "$ClashDir"/core
 		curl -sSL -o "$ClashDir"/config/config.yaml https://raw.githubusercontent.com/wmyfelix/ClashConfigsSharing/NPO/universal.yaml
-		curl -sSL  -o "$ClashDir"/CountryLatest.mmdb https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb
+		# curl -sSL  -o "$ClashDir"/CountryLatest.mmdb https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb
+	}
+		[[ "${INCLUDE_firstrun}" == true ]] && {
 		Replace_File Scripts/firstrun package/base-files/files/etc/init.d
 	}
 	[[ "${INCLUDE_Theme_Argon}" == true ]] && {
