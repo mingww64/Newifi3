@@ -143,16 +143,6 @@ jobs:
         body_path: update_log.txt
         files: openwrt/bin/Firmware/*
         
-    - name: Remove old beta Release
-      uses: dev-drprasad/delete-older-releases@v0.2.0
-      if: env.REMOVE_OLD_RELEASE == 'true' && !cancelled()
-      with:
-        keep_latest: 0
-        delete_tag_pattern: beta
-        delete_tags: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
     - name: Upload Firmware to beta Release
       uses: softprops/action-gh-release@v1
       if: env.UPLOAD_beta_RELEASE == 'true' && !cancelled()
@@ -162,6 +152,16 @@ jobs:
         tag_name: beta
         body_path: update_log.txt
         files: openwrt/bin/Firmware/*
+    
+    - name: Remove old beta Release
+      uses: dev-drprasad/delete-older-releases@v0.2.0
+      if: env.REMOVE_OLD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 3
+        delete_tag_pattern: beta
+        delete_tags: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
         
     - name: Remove workflow runs
       uses: GitRML/delete-workflow-runs@main
