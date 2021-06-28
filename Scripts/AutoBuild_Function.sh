@@ -320,7 +320,7 @@ PS_Firmware() {
 			TIME "Firmware is detected !"
 		else
 			TIME "[ERROR] Firmware is not detected !"
-			ls -al bin/Firmware
+			echo $(ls -al bin/Firmware)
 		fi
 	;;
 	esac
