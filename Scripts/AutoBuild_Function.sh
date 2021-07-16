@@ -182,6 +182,13 @@ Firmware-Diy_Base() {
 	sed -i '/rc.local/d' package/base-files/files/lib/upgrade/keep.d/base-files-essential
 	Replace_File CustomFiles/Depends/rc.local package/base-files/files/etc
 	}
+	[[ "${FALLBACK_kernel_5.4}" == true ]] && {
+	case "${TARGET_BOARD}" in
+	ramips)
+		sed -i 's/5.10/5.4/' target/linux/ramips/Makefile
+	;;
+	esac
+	}
 	case ${Openwrt_Author} in
 	coolsnowwolf)
 		Replace_File CustomFiles/Depends/coremark_lede.sh package/lean/coremark coremark.sh

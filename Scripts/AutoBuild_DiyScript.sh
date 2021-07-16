@@ -12,6 +12,7 @@ Diy_Core() {
 	CPU_MODEL=mipsle
 	CORE_LV=hardfloat
 	INCLUDE_opt_profile=true
+	FALLBACK_kernel_5.4=true
 	INCLUDE_rc_local=true
 	INCLUDE_firstrun=false
 	INCLUDE_AutoUpdate=true
