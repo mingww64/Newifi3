@@ -1,4 +1,4 @@
-### Since version=20210713  WONT BOOT UP with save configuration update
+### Since version=20210713  WONT BOOT UP with "save configuration update"
 ```
 Fri Jul 16 09:32:44 CST 2021 upgrade: The device is supported, but the config is incompatible to the new image (1.0->1.1). Please upgrade without keeping config (sysupgrade -n).
 Fri Jul 16 09:32:44 CST 2021 upgrade: Config cannot be migrated from swconfig to DSA
