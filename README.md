@@ -1,4 +1,9 @@
-### 20210713 20210714 WONT BOOT UP
+### Since version=20210713  WONT BOOT UP with save configuration update
+```
+Fri Jul 16 09:32:44 CST 2021 upgrade: The device is supported, but the config is incompatible to the new image (1.0->1.1). Please upgrade without keeping config (sysupgrade -n).
+Fri Jul 16 09:32:44 CST 2021 upgrade: Config cannot be migrated from swconfig to DSA
+Image check failed.
+```
 # NEWIFI3-OpenWrt [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/wmyfelix/newifi3/AutoBuild-d-team_newifi-d2)](https://github.com/wmyfelix/Newifi3/actions/workflows/d-team_newifi-d2.yml)
 ### Only Newifi3 is Qualified [![GitHub release (latest by date)](https://img.shields.io/github/downloads/wmyfelix/newifi3/beta/total)](https://github.com/wmyfelix/Newifi3/releases/tag/beta) [![GitHub release (latest by date)](https://img.shields.io/github/downloads/wmyfelix/newifi3/history/total)](https://github.com/wmyfelix/Newifi3/releases/tag/history)
 ## Feature
