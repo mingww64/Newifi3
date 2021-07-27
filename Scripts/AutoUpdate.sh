@@ -387,7 +387,7 @@ if [[ "${Compressed_Firmware}" == 1 ]];then
 fi
 sleep 3
 TIME "正在更新固件,期间请耐心等待..."
-sysupgrade ${Upgrade_Options} ${Firmware}
+sysupgrade -F ${Upgrade_Options} ${Firmware}
 [[ $? -ne 0 ]] && {
 	TIME r "固件刷写失败,请尝试手动更新固件!"
 	exit 1
