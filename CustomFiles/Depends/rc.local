@@ -1,4 +1,4 @@
 export PATH='/opt/bin:/opt/sbin:/opt/bin:/opt/sbin:/usr/sbin:/usr/bin:/sbin:/bin'
-aria2c -D --conf-path=/opt/.aria2/aria2.conf
 cd /opt/.aria2/ && sh tracker.sh
+. /opt/etc/init.d/rc.unslung start
 exit 0 

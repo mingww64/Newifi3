@@ -176,7 +176,7 @@ Firmware-Diy_Base() {
 	} || AutoUpdate_Version=OFF
 	Replace_File CustomFiles/Depends/profile package/base-files/files/etc
 	[[ "${INCLUDE_opt_profile}" == true ]] && {
-	echo ". /opt/etc/profile" >> package/base-files/files/etc/profile
+	echo -e "\n. /opt/etc/profile" >> package/base-files/files/etc/profile
 	}
 	sed -i '/profile/d' package/base-files/files/lib/upgrade/keep.d/base-files-essential
 	[[ "${INCLUDE_rc_local}" == true ]] && {
