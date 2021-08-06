@@ -1,8 +1,8 @@
 #!/bin/ash
-if [-f /opt];then
+if [ -e /opt ];then
     export PATH='/opt/bin:/opt/sbin:/opt/bin:/opt/sbin:/usr/sbin:/usr/bin:/sbin:/bin'
     cd /opt/.aria2/ && sh tracker.sh
     . /opt/etc/init.d/rc.unslung start
 else
     echo 'NO OPT'
-exit 0 
+fi

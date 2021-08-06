@@ -13,7 +13,7 @@ Diy_Core() {
 	CORE_LV=hardfloat
 	INCLUDE_opt_profile=true
 	FALLBACK_kernel_54=
-	INCLUDE_rc_local=
+	INCLUDE_rc_local=true
 	INCLUDE_firstrun=
 	INCLUDE_AutoUpdate=true
 	INCLUDE_AutoBuild_Tools=true
