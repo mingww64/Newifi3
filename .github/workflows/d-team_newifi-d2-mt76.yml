@@ -106,6 +106,7 @@ jobs:
       run: |
         cp Configs/$CONFIG_FILE openwrt/.config
         cd openwrt
+        sed -i "s/beta/beta-mt76/g" package/base-files/files/bin/AutoUpdate.sh
         cat .config
         ./scripts/feeds install -a
         make defconfig
