@@ -116,9 +116,8 @@ Firmware-Diy_Base() {
 		curl -sSL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-"$CPU_MODEL"-"$CORE_LV"-"$Clash_Date".gz -o /tmp/clash_tun.gz
 		gzip -d /tmp/clash_tun.gz
         mv /tmp/clash_tun "$ClashDir"/core
-		curl -sSL -o "$ClashDir"/config/config.yaml https://raw.githubusercontent.com/wmyfelix/ClashConfigsSharing/NPO/config.yaml
+		curl -sSL -o "$ClashDir"/config/config.yaml https://raw.githubusercontent.com/wmyfelix/ClashConfigsSharing/NPO/universal.yaml
 		cp "$ClashDir"/config/config.yaml "$ClashDir"/
-		# curl -sSL  -o "$ClashDir"/CountryLatest.mmdb https://raw.githubusercontent.com/alecthw/mmdb_china_ip_list/release/Country.mmdb
 	}
 		[[ "${INCLUDE_firstrun}" == true ]] && {
 		Replace_File Scripts/firstrun package/base-files/files/etc/init.d
