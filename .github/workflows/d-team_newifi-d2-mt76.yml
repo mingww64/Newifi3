@@ -25,7 +25,8 @@ on:
     types: [started]
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
+  #REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_URL: https://github.com/openwrt
   REPO_BRANCH: master
   CONFIG_FILE: d-team_newifi-d2-mt76
   DIY_SCRIPT: Scripts/AutoBuild_DiyScript.sh
