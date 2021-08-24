@@ -317,9 +317,9 @@ PS_Firmware() {
 		Default_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_Type}"
 		
 		echo "[Preload Info] Default_Firmware: ${Default_Firmware}"
-		renamefirmware="${TARGET_PROFILE}-${Openwrt_Version}-squashfs-sysupgrade.${Firmware_Type}"
+		renamefirmware="${TARGET_PROFILE}-${Openwrt_Version}-sysupgrade.${Firmware_Type}"
 		if [ -f "${Firmware_Path}/${Default_Firmware}" ];then
-			mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${renamefirmware}
+			mv -f ${Firmware_Path}/*.bin bin/Firmware/${renamefirmware}
 			_MD5=$(md5sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
 			echo -e "$(GET_TARGET_INFO)\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.targetDetail

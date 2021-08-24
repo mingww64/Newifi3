@@ -289,7 +289,7 @@ wget -q --timeout 5 ${Github_Tags} -O - > ${Download_Path}/Github_Tags
 	exit 1
 }
 TIME "正在获取云端固件信息..."
-export CLOUD_Firmware=$(egrep -o "${CURRENT_Device}-R[0-9].+-[0-9]+-squashfs-sysupgrade${Firmware_SFX}" ${Download_Path}/Github_Tags | awk 'END {print}')
+export CLOUD_Firmware=$(egrep -o "${CURRENT_Device}-R[0-9].+-[0-9]+-sysupgrade${Firmware_SFX}" ${Download_Path}/Github_Tags | awk 'END {print}')
 export CLOUD_Version=$(echo ${CLOUD_Firmware} | egrep -o "R[0-9].+-[0-9]+")
 [[ -z "${CLOUD_Version}" ]] && {
 	TIME r "云端固件信息获取失败!"
