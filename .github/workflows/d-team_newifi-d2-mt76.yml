@@ -82,7 +82,7 @@ jobs:
             exit 1
         }
         cd openwrt
-        sed -i "s/FEATURES:=/FEATURES:=ubifs nand " target/linux/ramips/Makefile
+        sed -i "s/FEATURES:=/FEATURES:=ubifs nand /" target/linux/ramips/Makefile
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         make defconfig
