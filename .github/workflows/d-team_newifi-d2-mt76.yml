@@ -25,8 +25,7 @@ on:
     types: [started]
 
 env:
-  #REPO_URL: https://github.com/coolsnowwolf/lede
-  REPO_URL: https://github.com/openwrt
+  REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   CONFIG_FILE: d-team_newifi-d2-mt76
   DIY_SCRIPT: Scripts/AutoBuild_DiyScript.sh
@@ -34,7 +33,7 @@ env:
   UPLOAD_RELEASE: true
   UPLOAD_beta_RELEASE: true
   UPLOAD_FIRMWARE: false
-  UPLOAD_BIN_DIR: false
+  UPLOAD_BIN_DIR: true
   REMOVE_USELESS_FILES: true
   REMOVE_OLD_RELEASE: true
   REMOVE_WORKFLOW_RUNS: true
@@ -83,6 +82,7 @@ jobs:
             exit 1
         }
         cd openwrt
+        sed -i "s/FEATURES:=/FEATURES:=ubifs nand " target/linux/ramips/Makefile
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         make defconfig
