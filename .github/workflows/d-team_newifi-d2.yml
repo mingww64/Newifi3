@@ -225,7 +225,6 @@ jobs:
         chmod +x $DIY_SCRIPT
         chmod +x $FUNCTION_SCRIPT
         cd openwrt
-        sed -i "s/beta/beta-mtwifi/g" package/base-files/files/bin/AutoUpdate.sh
         source $GITHUB_WORKSPACE/$DIY_SCRIPT
         source $GITHUB_WORKSPACE/$FUNCTION_SCRIPT && Firmware-Diy_Base
         Firmware-Diy
@@ -241,6 +240,7 @@ jobs:
       run: |
         cp Configs/$CONFIG_MTWIFI openwrt/.config
         cd openwrt
+        sed -i "s/beta/beta-mtwifi/g" package/base-files/files/bin/AutoUpdate.sh
         cat .config
         ./scripts/feeds install -a
         make defconfig
