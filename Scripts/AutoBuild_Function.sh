@@ -32,6 +32,11 @@ GET_TARGET_INFO() {
 		Version_File=package/base-files/files/etc/openwrt_release
 		Openwrt_Version="${Openwrt_Version_}${Compile_Date}"
 	;;
+	wmyfelix)
+		Version_File=package/lean/default-settings/files/zzz-default-settings
+		Old_Version="$(egrep -o "R[0-9]+\.[0-9]+\.[0-9]+" ${Version_File})"
+		Openwrt_Version="${Old_Version}-${Compile_Date}"
+	;;
 	*)
 		Openwrt_Version="${Openwrt_Version_}${Compile_Date}"
 	;;
@@ -314,19 +319,42 @@ PS_Firmware() {
 	;;
 	*)
 		cd ${Home}
-		Default_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_Type}"
-		
+		Squashfs_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.${Firmware_Type}"
+		Ubifs_Firmware="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-ubifs-sysupgrade.${Firmware_Type}"
+		initramfs_kernel="${_Firmware}-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-initramfs-kernel.${Firmware_Type}"
 		echo "[Preload Info] Default_Firmware: ${Default_Firmware}"
 		renamefirmware="${TARGET_PROFILE}-${Openwrt_Version}-squashfs-sysupgrade.${Firmware_Type}"
-		if [ -f "${Firmware_Path}/${Default_Firmware}" ];then
-			mv -f ${Firmware_Path}/${Default_Firmware} bin/Firmware/${renamefirmware}
+		if [ -f "${Firmware_Path}/${Squashfs_Firmware}" ];then
+			mv -f ${Firmware_Path}/${Squash_Firmware} bin/Firmware/${renamefirmware}
 			_MD5=$(md5sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
 			_SHA256=$(sha256sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
 			echo -e "$(GET_TARGET_INFO)\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.targetDetail
 			echo -e "MD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.Detail
-			TIME "Firmware is detected !"
+			TIME "Squashfs Firmware is detected !"
 		else
-			TIME "[ERROR] Firmware is not detected !"
+			TIME "[ERROR] SquashFS Firmware is not detected !"
+			echo $(ls -al bin/Firmware)
+		fi
+		if [ -f "${Firmware_Path}/${Ubifs_Firmware}" ];then
+			mv -f ${Firmware_Path}/${Ubifs_Firmware} bin/Firmware/${renamefirmware}
+			_MD5=$(md5sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
+			_SHA256=$(sha256sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
+			echo -e "$(GET_TARGET_INFO)\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.targetDetail
+			echo -e "MD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.Detail
+			TIME "Ubifs Firmware is detected !"
+		else
+			TIME "[ERROR] UbiFS Firmware is not detected !"
+			echo $(ls -al bin/Firmware)
+		fi
+		if [ -f "${Firmware_Path}/${initramfs_kernel}" ];then
+			mv -f ${Firmware_Path}/${initramfs_kernel} bin/Firmware/${renamefirmware}
+			_MD5=$(md5sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
+			_SHA256=$(sha256sum bin/Firmware/${renamefirmware} | cut -d ' ' -f1)
+			echo -e "$(GET_TARGET_INFO)\nMD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.targetDetail
+			echo -e "MD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.Detail
+			TIME "initramfs_kernel is detected !"
+		else
+			TIME "[ERROR] initramfs Kernel is not detected !"
 			echo $(ls -al bin/Firmware)
 		fi
 	;;
