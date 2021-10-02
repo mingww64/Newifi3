@@ -46,7 +46,7 @@ AutoUpdate 版本:	${Version}
 当前设备:		${CURRENT_Device}
 默认设备:		${DEFAULT_Device}
 当前固件版本:		${CURRENT_Version}
-固件名称:		AutoBuild-${CURRENT_Device}-${CURRENT_Version}${Firmware_SFX}
+固件名称:		${CURRENT_Device}-${CURRENT_Version}${Firmware_SFX}
 Github:			${Github}
 Github Raw:		${Github_Raw}
 解析 API:		${Github_Tags}
@@ -236,6 +236,7 @@ else
 		if [[ $? == 0 ]];then
 			rm /bin/AutoUpdate.sh
 			mv -f ${Download_Path}/AutoUpdate.sh /bin
+			sed -i "110s/export tag=.*/export tag=$tag/" /bin/AutoUpdate.sh
 			chmod +x /bin/AutoUpdate.sh
 			NEW_Version=$(egrep -o "V[0-9]+.[0-9].+" /bin/AutoUpdate.sh | awk 'NR==1')
 			TIME y "AutoUpdate [${Version}] > [${NEW_Version}]"

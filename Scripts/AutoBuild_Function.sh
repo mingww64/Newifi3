@@ -345,7 +345,7 @@ PS_Firmware() {
 			echo -e "MD5:${_MD5}\nSHA256:${_SHA256}" > bin/Firmware/${renamefirmware}.Detail
 			TIME "Ubifs Firmware is detected !"
 		else
-			TIME "[ERROR] UbiFS Firmware is not detected !"
+			TIME "[INFO] UbiFS Firmware is not detected !"
 			echo $(ls -al bin/Firmware)
 		fi
 		echo "[Preload Info] Default_Firmware: ${initramfs_kernel}"

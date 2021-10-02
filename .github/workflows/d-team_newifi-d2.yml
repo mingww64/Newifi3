@@ -82,7 +82,6 @@ jobs:
             exit 1
         }
         cd openwrt
-        sed -i "s/FEATURES:=/FEATURES:=ubifs nand /" target/linux/ramips/Makefile
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         make defconfig
@@ -107,7 +106,7 @@ jobs:
       run: |
         cp Configs/$CONFIG_MT76 openwrt/.config
         cd openwrt
-        sed -i "s/beta/beta-mt76/g" package/base-files/files/bin/AutoUpdate.sh
+        sed -i "110s/export tag=.*/export tag=beta-mt76/" package/base-files/files/bin/AutoUpdate.sh
         cat .config
         ./scripts/feeds install -a
         make defconfig
@@ -215,7 +214,6 @@ jobs:
             exit 1
         }
         cd openwrt
-        sed -i "s/FEATURES:=/FEATURES:=ubifs nand /" target/linux/ramips/Makefile
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         make defconfig
@@ -240,7 +238,7 @@ jobs:
       run: |
         cp Configs/$CONFIG_MTWIFI openwrt/.config
         cd openwrt
-        sed -i "s/beta/beta-mtwifi/g" package/base-files/files/bin/AutoUpdate.sh
+        sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh
         cat .config
         ./scripts/feeds install -a
         make defconfig
