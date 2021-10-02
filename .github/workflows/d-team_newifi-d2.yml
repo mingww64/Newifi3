@@ -24,8 +24,8 @@ on:
 #    types: [started]
 
 env:
-  REPO_URL: https://github.com/wmyfelix/lede
-  REPO_BRANCH: patch-1
+  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_BRANCH: master
   CONFIG_MTWIFI: d-team_newifi-d2
   CONFIG_MT76: d-team_newifi-d2-mt76
   DIY_SCRIPT: Scripts/AutoBuild_DiyScript.sh
