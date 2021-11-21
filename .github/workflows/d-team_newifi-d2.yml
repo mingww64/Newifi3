@@ -88,12 +88,15 @@ jobs:
 
     - name: Run Custom Firmware-Diy Scripts
       run: |
+        sed -i "s/ra0/wlan0/g" CustomFiles/system_d-team_newifi-d2
+        sed -i "s/rai0/wlan1/g" CustomFiles/system_d-team_newifi-d2
         chmod +x $DIY_SCRIPT
         chmod +x $FUNCTION_SCRIPT
         cd openwrt
         source $GITHUB_WORKSPACE/$DIY_SCRIPT
         source $GITHUB_WORKSPACE/$FUNCTION_SCRIPT && Firmware-Diy_Base
         Firmware-Diy
+
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
