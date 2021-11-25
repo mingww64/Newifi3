@@ -1,3 +1,4 @@
+git other openwrt-packages https://github.com/liuran001
 git other luci-app-argon-config https://github.com/jerrykuku
 #git other luci-app-adguardhome https://github.com/Hyy2001X
 #svn other luci-app-smartdns https://github.com/kenzok8/openwrt-packages/trunk
