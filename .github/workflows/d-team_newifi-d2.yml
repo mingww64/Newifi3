@@ -107,7 +107,6 @@ jobs:
 
     - name: Preload and Compile the Openwrt
       run: |
-        cp Configs/$CONFIG_MT76 openwrt/.config
         cd openwrt
         sed -i "110s/export tag=.*/export tag=beta-mt76/" package/base-files/files/bin/AutoUpdate.sh
         cat .config
@@ -239,7 +238,6 @@ jobs:
 
     - name: Preload and Compile the Openwrt
       run: |
-        cp Configs/$CONFIG_MTWIFI openwrt/.config
         cd openwrt
         sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh
         cat .config
