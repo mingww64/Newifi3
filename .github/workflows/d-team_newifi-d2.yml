@@ -27,7 +27,7 @@ env:
   REPO_URL: https://github.com/openwrt/openwrt
   REPO_BRANCH: master
   CONFIG_MTWIFI: d-team_newifi-d2
-  CONFIG_MT76: d-team_newifi-d2-mt76
+  CONFIG_MT76: d-team_newifi-d2-mt76.add
   DIY_SCRIPT: Scripts/AutoBuild_DiyScript.sh
   FUNCTION_SCRIPT: Scripts/AutoBuild_Function.sh
   UPLOAD_RELEASE: true
@@ -77,7 +77,7 @@ jobs:
       run: |
         git clone -b $REPO_BRANCH $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        [ -f Configs/$CONFIG_MT76 ] && cp Configs/$CONFIG_MT76 openwrt/.config || {
+        [ -f Configs/$CONFIG_MT76 ] && cat Configs/$CONFIG_MTWIFI Configs/$CONFIG_MT76 > openwrt/.config || {
             echo "未检测到该设备的 $CONFIG_MT76 配置文件!"
             exit 1
         }
