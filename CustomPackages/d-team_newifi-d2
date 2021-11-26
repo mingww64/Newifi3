@@ -1,6 +1,5 @@
 git other OpenClash https://github.com/vernesong
-git other ddns-scripts_dnspod https://github.com/nixonli
-git other luci-app-unblockmusic https://github.com/maxlicheng
+git other luci-app-unblockneteasemusic https://github.com/UnblockNeteaseMusic
 git other luci-app-usb3disable https://github.com/rufengsuixing
 svn other luci-app-eqos https://github.com/kenzok8/openwrt-packages/trunk
 git other luci-app-bearDropper https://github.com/NateLol
