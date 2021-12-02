@@ -84,7 +84,6 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        make defconfig
 
     - name: Run Custom Firmware-Diy Scripts
       run: |
@@ -218,7 +217,6 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        make defconfig
 
     - name: Run Custom Firmware-Diy Scripts
       run: |
