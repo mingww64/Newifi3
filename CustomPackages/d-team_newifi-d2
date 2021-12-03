@@ -1,7 +1,9 @@
+git addpack openwrt-packages https://github.com/liuran001 packages
 git other OpenClash https://github.com/vernesong
-git other luci-app-unblockneteasemusic https://github.com/UnblockNeteaseMusic
+git luci-app-unblockneteasemusic luci-app-unblockneteasemusic https://github.com/UnblockNeteaseMusic
 git other luci-app-usb3disable https://github.com/rufengsuixing
 svn other luci-app-eqos https://github.com/kenzok8/openwrt-packages/trunk
 git other luci-app-bearDropper https://github.com/NateLol
 git other luci-app-dnsfilter https://github.com/garypang13 main
 git / OpenAppFilter https://github.com/destan19
+ git / luci-app-redsocks2 https://github.com/AlexZhuo
