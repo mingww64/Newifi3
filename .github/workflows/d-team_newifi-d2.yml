@@ -103,7 +103,7 @@ jobs:
     - name: Preload and Compile the Openwrt
       run: |
         cd openwrt
-        sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh\
+        sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         cat .config
@@ -234,7 +234,7 @@ jobs:
     - name: Preload and Compile the Openwrt
       run: |
         cd openwrt
-        sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh\
+        sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         cat .config
