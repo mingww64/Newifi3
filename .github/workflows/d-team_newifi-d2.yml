@@ -77,43 +77,40 @@ jobs:
       run: |
         git clone -b $REPO_BRANCH $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        [ -f Configs/$CONFIG_MT76 ] && cat Configs/$CONFIG_MTWIFI Configs/$CONFIG_MT76 > openwrt/.config || {
+        [ -f Configs/$CONFIG_MT76 ] && cat Configs/$CONFIG_MTWIFI Configs/$CONFIG_MT76 > openwrt/Konfig || {
             echo "未检测到该设备的 $CONFIG_MT76 配置文件!"
             exit 1
         }
         cd openwrt
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
+        cp Konfig .config
+  - name: Run Custom Firmware-Diy Scripts
+    run: |
+      chmod +x $DIY_SCRIPT
+      chmod +x $FUNCTION_SCRIPT
+      cd openwrt
+      source $GITHUB_WORKSPACE/$DIY_SCRIPT
+      source $GITHUB_WORKSPACE/$FUNCTION_SCRIPT && Firmware-Diy_Base
+      Firmware-Diy
+      cp Konfig .config
 
-    - name: Run Custom Firmware-Diy Scripts
-      run: |
-        sed -i "s/ra0/wlan0/g" CustomFiles/system_d-team_newifi-d2
-        sed -i "s/rai0/wlan1/g" CustomFiles/system_d-team_newifi-d2
-        chmod +x $DIY_SCRIPT
-        chmod +x $FUNCTION_SCRIPT
-        cd openwrt
-        source $GITHUB_WORKSPACE/$DIY_SCRIPT
-        source $GITHUB_WORKSPACE/$FUNCTION_SCRIPT && Firmware-Diy_Base
-        Firmware-Diy
+  - name: SSH connection to Actions
+    uses: P3TERX/ssh2actions@v1.0.0
+    if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+    env:
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
-
-    - name: SSH connection to Actions
-      uses: P3TERX/ssh2actions@v1.0.0
-      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
-      env:
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-
-    - name: Preload and Compile the Openwrt
-      run: |
-        cd openwrt
-        sed -i "110s/export tag=.*/export tag=beta-mt76/" package/base-files/files/bin/AutoUpdate.sh
-        cat .config
-        ./scripts/feeds install -a
-        make defconfig
-        make download -j$(nproc)
-        echo "Start to compile OpenWrt ..."
-        make -j$(nproc) || make -j1 V=s
+  - name: Preload and Compile the Openwrt
+    run: |
+      cd openwrt
+      sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh\
+      ./scripts/feeds update -a
+      ./scripts/feeds install -a
+      cat .config
+      make defconfig
+      make download -j$(nproc)
+      echo "Start to compile OpenWrt ..."
+      make -j$(nproc) || make -j1 V=s
 
     - name: Process the AutoBuild Firmware
       run: |
@@ -210,14 +207,12 @@ jobs:
       run: |
         git clone -b $REPO_BRANCH $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        [ -f Configs/$CONFIG_MTWIFI ] && cp Configs/$CONFIG_MTWIFI openwrt/.config || {
+        [ -f Configs/$CONFIG_MTWIFI ] && cp Configs/$CONFIG_MTWIFI openwrt/Konfig || {
             echo "未检测到该设备的 $CONFIG_MTWIFI 配置文件!"
             exit 1
         }
         cd openwrt
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
-
+        cp Konfig .config
     - name: Run Custom Firmware-Diy Scripts
       run: |
         chmod +x $DIY_SCRIPT
@@ -226,6 +221,8 @@ jobs:
         source $GITHUB_WORKSPACE/$DIY_SCRIPT
         source $GITHUB_WORKSPACE/$FUNCTION_SCRIPT && Firmware-Diy_Base
         Firmware-Diy
+        cp Konfig .config
+
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
@@ -237,9 +234,10 @@ jobs:
     - name: Preload and Compile the Openwrt
       run: |
         cd openwrt
-        sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh
-        cat .config
+        sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh\
+        ./scripts/feeds update -a
         ./scripts/feeds install -a
+        cat .config
         make defconfig
         make download -j$(nproc)
         echo "Start to compile OpenWrt ..."
