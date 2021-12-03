@@ -83,6 +83,8 @@ jobs:
         }
         cd openwrt
         cp Konfig .config
+        cat .config
+        make defconfig
     - name: Run Custom Firmware-Diy Scripts
       run: |
         chmod +x $DIY_SCRIPT
@@ -91,7 +93,6 @@ jobs:
         source $GITHUB_WORKSPACE/$DIY_SCRIPT
         source $GITHUB_WORKSPACE/$FUNCTION_SCRIPT && Firmware-Diy_Base
         Firmware-Diy
-        cp Konfig .config
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
@@ -106,6 +107,7 @@ jobs:
         sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+        cp Konfig .config
         cat .config
         make defconfig
         make download -j$(nproc)
@@ -213,6 +215,9 @@ jobs:
         }
         cd openwrt
         cp Konfig .config
+        cat .config
+        make defconfig
+
     - name: Run Custom Firmware-Diy Scripts
       run: |
         chmod +x $DIY_SCRIPT
@@ -221,8 +226,6 @@ jobs:
         source $GITHUB_WORKSPACE/$DIY_SCRIPT
         source $GITHUB_WORKSPACE/$FUNCTION_SCRIPT && Firmware-Diy_Base
         Firmware-Diy
-        cp Konfig .config
-
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
@@ -237,6 +240,7 @@ jobs:
         sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+        cp Konfig .config
         cat .config
         make defconfig
         make download -j$(nproc)
