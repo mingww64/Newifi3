@@ -83,34 +83,34 @@ jobs:
         }
         cd openwrt
         cp Konfig .config
-  - name: Run Custom Firmware-Diy Scripts
-    run: |
-      chmod +x $DIY_SCRIPT
-      chmod +x $FUNCTION_SCRIPT
-      cd openwrt
-      source $GITHUB_WORKSPACE/$DIY_SCRIPT
-      source $GITHUB_WORKSPACE/$FUNCTION_SCRIPT && Firmware-Diy_Base
-      Firmware-Diy
-      cp Konfig .config
+    - name: Run Custom Firmware-Diy Scripts
+      run: |
+        chmod +x $DIY_SCRIPT
+        chmod +x $FUNCTION_SCRIPT
+        cd openwrt
+        source $GITHUB_WORKSPACE/$DIY_SCRIPT
+        source $GITHUB_WORKSPACE/$FUNCTION_SCRIPT && Firmware-Diy_Base
+        Firmware-Diy
+        cp Konfig .config
 
-  - name: SSH connection to Actions
-    uses: P3TERX/ssh2actions@v1.0.0
-    if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
-    env:
-      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+    - name: SSH connection to Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
-  - name: Preload and Compile the Openwrt
-    run: |
-      cd openwrt
-      sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh\
-      ./scripts/feeds update -a
-      ./scripts/feeds install -a
-      cat .config
-      make defconfig
-      make download -j$(nproc)
-      echo "Start to compile OpenWrt ..."
-      make -j$(nproc) || make -j1 V=s
+    - name: Preload and Compile the Openwrt
+      run: |
+        cd openwrt
+        sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh\
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        cat .config
+        make defconfig
+        make download -j$(nproc)
+        echo "Start to compile OpenWrt ..."
+        make -j$(nproc) || make -j1 V=s
 
     - name: Process the AutoBuild Firmware
       run: |
