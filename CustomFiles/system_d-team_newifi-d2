@@ -20,7 +20,7 @@ config led 'led_internet'
 	option name 'internet'
 	option trigger 'netdev'
 	option mode 'link tx rx'
-	option dev 'eth0.2'
+	option dev 'eth0'
 	option sysfs 'blue:internet'
 
 config led 'led_wlan2g'
