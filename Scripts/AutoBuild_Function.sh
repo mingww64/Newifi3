@@ -249,8 +249,10 @@ Firmware-Diy_Base() {
 
 	}
 	[[ ${Openwrt_Author} == openwrt ]] && {
+		sudo apt install upx-ucl -y
 		mkdir -p $Home/staging_dir/host/bin/ > /dev/null 2>&1
 		ln -s $(which upx) $Home/staging_dir/host/bin/upx 2>&1
+		ln -s $(which upx-ucl) $Home/staging_dir/host/bin/upx-ucl 2>&1
 	}
 	TIME "[Firmware-Diy_Base] All done !"
 }
