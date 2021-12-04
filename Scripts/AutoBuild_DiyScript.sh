@@ -8,10 +8,10 @@ Diy_Core() {
 	Default_Device=d-team_newifi-d2
 	Short_Firmware_Date=true
 	Default_IP_Address="192.168.1.1"
-    INCLUDE_clash=true
-	CPU_MODEL=mipsle
-	CORE_LV=hardfloat
-	INCLUDE_opt_profile=true
+    #INCLUDE_clash=true
+	#CPU_MODEL=mipsle
+	#CORE_LV=hardfloat
+	#INCLUDE_opt_profile=true
 	FALLBACK_kernel_54=
 	INCLUDE_rc_local=true
 	INCLUDE_firstrun=
