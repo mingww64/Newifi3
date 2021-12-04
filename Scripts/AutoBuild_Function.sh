@@ -246,6 +246,11 @@ Firmware-Diy_Base() {
 		} || {
 			TIME "[ERROR] Current source: [${Openwrt_Author}] is not supported !"
 		}
+
+	}
+	[[ ${Openwrt_Author} == openwrt ]] && {
+		mkdir -p $Home/staging_dir/host/bin/ > /dev/null 2>&1
+		ln -s $(which upx) $Home/staging_dir/host/bin/upx 2>&1
 	}
 	TIME "[Firmware-Diy_Base] All done !"
 }
