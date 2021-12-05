@@ -1,4 +1,4 @@
-git other op-pack https://github.com/kenzok8/openwrt-packages
+git other openwrt-packages https://github.com/kenzok8
 git other OpenClash https://github.com/vernesong
 git other luci-app-usb3disable https://github.com/rufengsuixing
 # svn other luci-app-eqos https://github.com/kenzok8/openwrt-packages/trunk
