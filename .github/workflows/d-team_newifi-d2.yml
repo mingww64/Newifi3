@@ -103,7 +103,7 @@ jobs:
     - name: Preload
       run: |
         cd openwrt
-        sed -i "110s/export tag=.*/export tag=beta-mtwifi/" package/base-files/files/bin/AutoUpdate.sh
+        sed -i "110s/export tag=.*/export tag=beta-mt76/" package/base-files/files/bin/AutoUpdate.sh
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         cp Konfig .config

@@ -232,7 +232,7 @@ else
 	-x | -xp | -px)
 		export CLOUD_Script=${Github_Raw}/${user}/${repo}/master/Scripts/AutoUpdate.sh
 		TIME "${PROXY_ECHO}开始更新 AutoUpdate 脚本,请耐心等待..."
-		wget -q --tries 3 --timeout 5 ${CLOUD_Script} -O ${Download_Path}/AutoUpdate.sh
+		wget -q --timeout 5 ${CLOUD_Script} -O ${Download_Path}/AutoUpdate.sh
 		if [[ $? == 0 ]];then
 			rm /bin/AutoUpdate.sh
 			mv -f ${Download_Path}/AutoUpdate.sh /bin
@@ -345,7 +345,7 @@ do
 		TIME r "固件下载失败,请检查网络后重试!"
 		exit 1
 	else
-		wget -q --tries 1 --timeout 5 "${Github_Release}/${Firmware}" -O ${Firmware}
+		wget -q--timeout 5 "${Github_Release}/${Firmware}" -O ${Firmware}
 		[[ $? == 0 ]] && break
 	fi
 	export Retry_Times=$((${Retry_Times} - 1))
@@ -355,7 +355,7 @@ done
 TIME y "固件下载成功!"
 TIME "正在获取云端 MD5,请耐心等待..."
 TIME "${Firmware_Detail}"
-wget -q --tries 3 --timeout 5 ${Github_Release}/${Firmware_Detail} -O ${Firmware_Detail}
+wget -q --timeout 5 ${Github_Release}/${Firmware_Detail} -O ${Firmware_Detail}
 [[ ! $? == 0 ]] && {
 	TIME r "云端 MD5 获取失败,请检查网络后重试!"
 	exit 1
