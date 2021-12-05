@@ -10,7 +10,7 @@ Diy_Core() {
 	Default_IP_Address="192.168.1.1"
     INCLUDE_clash=true
 	CPU_MODEL=mipsle
-	CORE_LV=hardfloat
+	CORE_LV=softfloat
 	INCLUDE_opt_profile=true
 	FALLBACK_kernel_54=
 	INCLUDE_rc_local=true
