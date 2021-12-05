@@ -9,3 +9,4 @@ git other luci-app-dnsfilter https://github.com/garypang13 main
 git other luci-app-redsocks2 https://github.com/AlexZhuo
 git other go-aliyundrive-webdav https://github.com/jerrykuku main
 git other luci-app-go-aliyundrive-webdav https://github.com/jerrykuku main
+git other OpenAppFilter https://github.com/destan19
