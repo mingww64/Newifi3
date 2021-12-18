@@ -158,6 +158,7 @@ x86_64)
 	export Space_Min=0
 esac
 cd /etc
+[[ "$Input_Option" == -tag ]] && echo "$Github_Tags" && exit 0
 clear && echo "Openwrt-AutoUpdate Script ${Version}"
 if [[ -z "${Input_Option}" ]];then
 	export Upgrade_Options="-q"
@@ -208,11 +209,6 @@ else
 	-d)
 		rm -f ${Download_Path}/*
 		TIME y "固件下载缓存清理完成!"
-		exit 0
-	;;
-	-tag)
-		clear
-		echo "$Github_Tags"
 		exit 0
 	;;
 	-h)
