@@ -10,4 +10,4 @@ svn other redsocks2 https://github.com/kenzok8/openwrt-packages/trunk
 git other go-aliyundrive-webdav https://github.com/jerrykuku main
 git other luci-app-go-aliyundrive-webdav https://github.com/jerrykuku main
 git other OpenAppFilter https://github.com/destan19
-svn other luci-app-vlmcsd https://github.com/coolsnowwolf/lede/trunk/package/lean
+svn other lean https://github.com/coolsnowwolf/lede/trunk/package/
