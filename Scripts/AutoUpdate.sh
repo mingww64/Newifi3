@@ -210,6 +210,10 @@ else
 		TIME y "固件下载缓存清理完成!"
 		exit 0
 	;;
+	-tag)
+		echo "$Github_Tags"
+		exit 0
+	;;
 	-h)
 		Shell_Helper
 	;;
