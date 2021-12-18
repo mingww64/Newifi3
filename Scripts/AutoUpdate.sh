@@ -299,20 +299,13 @@ export CLOUD_Version=$(echo ${CLOUD_Firmware} | egrep -o "R[0-9].+-[0-9]+")
 export Firmware_Name="$(echo ${CLOUD_Firmware} | egrep -o "${CURRENT_Device}-R[0-9].+-[0-9]+")"
 export Firmware="${CLOUD_Firmware}"
 export Firmware_Detail="${Firmware_Name}-squashfs-sysupgrade${Firmware_SFX}${Detail_SFX}"
-let X="$(grep -n "${Firmware}" ${Download_Path}/Github_Tags | tail -1 | cut -d : -f 1)-4"
-let CLOUD_Firmware_Size="$(sed -n "${X}p" ${Download_Path}/Github_Tags | egrep -o "[0-9]+" | awk '{print ($1)/1048576}' | awk -F. '{print $1}')+1"
 echo -e "\n固件作者: ${Author%/*}"
 echo "设备名称: ${CURRENT_Device}"
 echo "固件格式: ${Firmware_SFX}"
 echo -e "\n当前固件版本: ${CURRENT_Version}"
 echo "云端固件版本: ${CLOUD_Version}"
 echo "可用空间: ${TMP_Available}M"
-echo "固件大小: ${CLOUD_Firmware_Size}M"
 if [[ ! "${Force_Update}" == 1 ]];then
-	[[ "${TMP_Available}" -lt "${CLOUD_Firmware_Size}" ]] && {
-		TIME r "/tmp 空间不足: [${CLOUD_Firmware_Size}M],无法执行更新!"
-		exit
-	}
 	if [[ "${CURRENT_Version}" == "${CLOUD_Version}" ]];then
 		[[ "${AutoUpdate_Mode}" == 1 ]] && exit 0
 		TIME && read -p "已是最新版本,是否强制更新固件?[Y/n]:" Choose
