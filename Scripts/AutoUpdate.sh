@@ -3,7 +3,7 @@
 # AutoBuild Module by Hyy2001
 # AutoUpdate for Openwrt
 
-Version=V5.7.4
+Version=Final.
 
 Shell_Helper() {
 cat <<EOF
