@@ -211,6 +211,7 @@ else
 		exit 0
 	;;
 	-tag)
+		clear
 		echo "$Github_Tags"
 		exit 0
 	;;
