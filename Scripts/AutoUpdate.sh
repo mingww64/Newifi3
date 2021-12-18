@@ -232,7 +232,7 @@ else
 	-x | -xp | -px)
 		export CLOUD_Script=${Github_Raw}/${user}/${repo}/master/Scripts/AutoUpdate.sh
 		TIME "${PROXY_ECHO}开始更新 AutoUpdate 脚本,请耐心等待..."
-		wget -q --timeout 5 ${CLOUD_Script} -O ${Download_Path}/AutoUpdate.sh
+		curl -sSL ${CLOUD_Script} -o ${Download_Path}/AutoUpdate.sh
 		if [[ $? == 0 ]];then
 			rm /bin/AutoUpdate.sh
 			mv -f ${Download_Path}/AutoUpdate.sh /bin
@@ -269,7 +269,7 @@ fi
 	TIME r "/tmp 空间不足: [${Space_Min}M],无法执行更新!"
 	exit 1
 }
-Install_Pkg wget
+Install_Pkg curl
 if [[ -z "${CURRENT_Version}" ]];then
 	TIME r "警告: 当前固件版本获取失败!"
 	export CURRENT_Version=Unknown
@@ -284,7 +284,7 @@ if [[ -z "${CURRENT_Device}" ]];then
 	}
 fi
 TIME "正在检查版本更新..."
-wget -q --timeout 5 ${Github_Tags} -O - > ${Download_Path}/Github_Tags
+curl -sSL ${Github_Tags} -o ${Download_Path}/Github_Tags
 [[ ! $? == 0 ]] && {
 	TIME r "检查更新失败,请稍后重试!"
 	exit 1
@@ -345,7 +345,7 @@ do
 		TIME r "固件下载失败,请检查网络后重试!"
 		exit 1
 	else
-		wget -q--timeout 5 "${Github_Release}/${Firmware}" -O ${Firmware}
+		curl -sSL "${Github_Release}/${Firmware}" -o ${Firmware}
 		[[ $? == 0 ]] && break
 	fi
 	export Retry_Times=$((${Retry_Times} - 1))
@@ -355,7 +355,7 @@ done
 TIME y "固件下载成功!"
 TIME "正在获取云端 MD5,请耐心等待..."
 TIME "${Firmware_Detail}"
-wget -q --timeout 5 ${Github_Release}/${Firmware_Detail} -O ${Firmware_Detail}
+curl -sSL ${Github_Release}/${Firmware_Detail} -o ${Firmware_Detail}
 [[ ! $? == 0 ]] && {
 	TIME r "云端 MD5 获取失败,请检查网络后重试!"
 	exit 1

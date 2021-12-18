@@ -36,7 +36,7 @@ do
 	;;
 	x)
 		
-		wget -q ${Github_Raw}/Scripts/AutoBuild_Tools.sh -O ${AutoBuild_Tools_Temp}/AutoBuild_Tools.sh
+		curl -sSL ${Github_Raw}/Scripts/AutoBuild_Tools.sh -o ${AutoBuild_Tools_Temp}/AutoBuild_Tools.sh
 		if [[ $? == 0 ]];then
 			echo -e "\n[AutoBuild_Tools] 脚本更新成功!"
 			rm -f /bin/AutoBuild_Tools.sh.sh
@@ -371,7 +371,7 @@ do
 		break
 	;;
 	x)
-		wget -q ${Github_Raw}/Scripts/AutoUpdate.sh -O ${AutoBuild_Tools_Temp}/AutoUpdate.sh
+		curl -sSL ${Github_Raw}/Scripts/AutoUpdate.sh -o ${AutoBuild_Tools_Temp}/AutoUpdate.sh
 		[[ $? == 0 ]] && {
 			echo -e "\n脚本更新成功!"
 			rm -f /bin/AutoUpdate.sh

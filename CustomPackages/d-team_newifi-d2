@@ -1,12 +1,13 @@
-git other openwrt-packages https://github.com/kenzok8
+# git other openwrt-packages https://github.com/kenzok8
 git other OpenClash https://github.com/vernesong
 git other luci-app-usb3disable https://github.com/rufengsuixing
 # svn other luci-app-eqos https://github.com/kenzok8/openwrt-packages/trunk
 git other luci-app-bearDropper https://github.com/NateLol
 git other luci-app-dnsfilter https://github.com/garypang13 main
-# svn other redsocks2 https://github.com/kenzok8/openwrt-packages/trunk
+svn other redsocks2 https://github.com/kenzok8/openwrt-packages/trunk
 # svn other luci-app-ssr-plus https://github.com/kenzok8/openwrt-packages/trunk
-git other luci-app-redsocks2 https://github.com/AlexZhuo
+# git other luci-app-redsocks2 https://github.com/AlexZhuo
 git other go-aliyundrive-webdav https://github.com/jerrykuku main
 git other luci-app-go-aliyundrive-webdav https://github.com/jerrykuku main
 git other OpenAppFilter https://github.com/destan19
+svn other luci-app-vlmcsd https://github.com/coolsnowwolf/lede/trunk/package/lean

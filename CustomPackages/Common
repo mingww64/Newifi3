@@ -6,4 +6,4 @@ git other luci-app-argon-config https://github.com/jerrykuku
 #git other luci-app-serverchan https://github.com/tty228
 svn other luci-app-socat https://github.com/Lienol/openwrt-package/trunk
 git other luci-app-onliner https://github.com/rufengsuixing
-git ssdepend small https://github.com/kenzok8
+# git ssdepend small https://github.com/kenzok8
