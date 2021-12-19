@@ -17,8 +17,8 @@ on:
         description: '固件 IP 地址 [可选]'
         default: ''
 
-#  schedule:
-#    - cron: 0 11 * * *
+  schedule:
+    - cron: 0 11 1 * *
 
 #  watch:
 #    types: [started]
@@ -129,14 +129,14 @@ jobs:
       uses: actions/upload-artifact@main
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       with:
-        name: OpenWrt_Firmware_${{ env.Artifacts_DATE }}
+        name: OpenWrt_Firmware_MT76_${{ env.Artifacts_DATE }}
         path: openwrt/bin/Firmware
 
     - name: Upload bin directory to Artifacts
       uses: actions/upload-artifact@main
       if: env.UPLOAD_BIN_DIR == 'true' && !cancelled()
       with:
-        name: OpenWrt_bin_${{ env.Artifacts_DATE }}
+        name: OpenWrt_bin_MT76_${{ env.Artifacts_DATE }}
         path: openwrt/bin
 
     - name: Upload Firmware to Historial Release
@@ -267,14 +267,14 @@ jobs:
       uses: actions/upload-artifact@main
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       with:
-        name: OpenWrt_Firmware_${{ env.Artifacts_DATE }}
+        name: OpenWrt_Firmware_MTWIFI_${{ env.Artifacts_DATE }}
         path: openwrt/bin/Firmware
         
     - name: Upload bin directory to Artifacts
       uses: actions/upload-artifact@main
       if: env.UPLOAD_BIN_DIR == 'true' && !cancelled()
       with:
-        name: OpenWrt_bin_${{ env.Artifacts_DATE }}
+        name: OpenWrt_bin_MTWIFI_${{ env.Artifacts_DATE }}
         path: openwrt/bin
 
     - name: Upload Firmware to Historial Release
