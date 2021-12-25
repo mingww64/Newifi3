@@ -24,9 +24,6 @@ Diy_Core() {
 }
 
 Firmware-Diy() {
-	# Update_Makefile exfat $(PKG_Finder d package exfat)
-	AddPackage svn ../feeds/packages/admin netdata https://github.com/openwrt/packages/trunk/admin
-
 	case ${TARGET_PROFILE} in
 	d-team_newifi-d2)
 		#Replace_File CustomFiles/mac80211.sh package/kernel/mac80211/files/lib/wifi
