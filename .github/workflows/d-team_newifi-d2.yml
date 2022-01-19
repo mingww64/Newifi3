@@ -25,8 +25,8 @@ on:
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt
-  REPO_BRANCH: master
-#  REPO_BRANCH: openwrt-21.02
+#  REPO_BRANCH: master
+  REPO_BRANCH: openwrt-21.02
   CONFIG_MTWIFI: d-team_newifi-d2
   CONFIG_MT76: d-team_newifi-d2-mt76.add
   DIY_SCRIPT: Scripts/AutoBuild_DiyScript.sh
