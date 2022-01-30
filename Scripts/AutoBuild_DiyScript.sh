@@ -11,7 +11,7 @@ Diy_Core() {
     INCLUDE_clash=true
 	CPU_MODEL=mipsle
 	CORE_LV=softfloat
-	Clash_Config=https://raw.githubusercontent.com/wmyfelix/ClashAddons/OMC/universal.yaml
+	Clash_Config=https://realnet.ga/proxies/test.yaml
 	INCLUDE_opt_profile=true
 	FALLBACK_kernel_54=
 	INCLUDE_rc_local=true
