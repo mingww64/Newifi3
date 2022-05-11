@@ -59,6 +59,11 @@ CONFIG_PACKAGE_luci-app-wol=y
 CONFIG_PACKAGE_luci-app-openclash=y
 CONFIG_PACKAGE_luci-app-oaf=y
 
+# HP Printer
+CONFIG_PACKAGE_hplip-common=y
+CONFIG_PACKAGE_hplip-sane=y
+CONFIG_PACKAGE_kmod-usb-printer=y
+CONFIG_PACKAGE_luci-app-p910nd=y
 
 # Other Appliciations
 CONFIG_PACKAGE_openssh-sftp-server=y
