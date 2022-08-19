@@ -8,7 +8,7 @@ Diy_Core() {
 	Default_Device=d-team_newifi-d2
 	Short_Firmware_Date=true
 	Default_IP_Address="192.168.1.1"
- 	INCLUDE_clash=true
+ 	INCLUDE_clash= # Wait for fixes
 	CPU_MODEL=mipsle
 	CORE_LV=softfloat
 	Clash_Config=https://clashaddons.pages.dev/clash
